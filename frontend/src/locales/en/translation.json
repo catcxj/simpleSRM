@@ -1,0 +1,403 @@
+{
+    "app": {
+        "title": "Internal Unit Supply Chain Management System",
+        "dashboard": "Dashboard",
+        "suppliers": "Suppliers",
+        "projects": "Projects",
+        "contracts": "Contracts",
+        "evaluation": "Evaluation",
+        "settings": "Settings",
+        "logout": "Logout",
+        "system_name": "SCM System",
+        "system_management": "System Management",
+        "users": "Users",
+        "roles": "Roles",
+        "configuration": "Configuration"
+    },
+    "login": {
+        "title": "SimpleSRM Login",
+        "welcome": "Welcome back",
+        "username": "Username",
+        "password": "Password",
+        "submit": "Login",
+        "logging_in": "Logging in...",
+        "failed_message": "Login failed. Please check your credentials."
+    },
+    "system": {
+        "users": {
+            "title": "User Management",
+            "add": "Add User",
+            "search_placeholder": "Search users...",
+            "fields": {
+                "username": "Username",
+                "name": "Name",
+                "unit": "Unit",
+                "role": "Role",
+                "status": "Status",
+                "actions": "Actions"
+            },
+            "confirm_delete": "Are you sure you want to delete this user?"
+        },
+        "roles": {
+            "title": "Role Management",
+            "add": "Add Role",
+            "fields": {
+                "name": "Role Name",
+                "description": "Description",
+                "businessTypes": "Business Types",
+                "actions": "Actions"
+            },
+            "permissions": {
+                "title": "Permissions",
+                "read_suppliers": "Suppliers (Read)",
+                "write_suppliers": "Suppliers (Write)",
+                "read_projects": "Projects (Read)",
+                "write_projects": "Projects (Write)",
+                "read_contracts": "Contracts (Read)",
+                "write_contracts": "Contracts (Write)",
+                "read_evaluations": "Evaluations (Read)",
+                "write_evaluations": "Evaluations (Write)",
+                "read_users": "System Users (Read)",
+                "write_users": "System Users (Write)",
+                "read_roles": "System Roles (Read)",
+                "write_roles": "System Roles (Write)",
+                "read_config": "Configuration (Read)"
+            },
+            "confirm_delete": "Are you sure you want to delete this role?"
+        },
+        "config": {
+            "title": "System Configuration",
+            "subtitle": "Manage entity custom fields and system settings",
+            "supplier_fields_title": "Supplier Custom Attributes",
+            "supplier_fields_desc": "Define custom fields for supplier profiles.",
+            "add_attribute": "Add Attribute",
+            "edit_attribute": "Edit Attribute",
+            "other_entities": "Other Entities",
+            "evaluation_settings": "Evaluation Settings",
+            "evaluation_settings_desc": "Configure background task settings for the evaluation module.",
+            "evaluation_frequency": "Evaluation Task Frequency",
+            "evaluation_frequency_desc": "Select how often evaluation tasks are automatically generated for active projects.",
+            "select_frequency": "Select Frequency",
+            "frequency_yearly": "Yearly",
+            "frequency_quarterly": "Quarterly",
+            "frequency_monthly": "Monthly",
+            "evaluation_period_saved": "Evaluation period saved",
+            "tabs": {
+                "supplier_attribute": "Supplier Attributes",
+                "evaluation_task": "Evaluation Tasks",
+                "other": "Other Settings"
+            },
+            "fields": {
+                "key": "Key",
+                "value": "Value",
+                "name": "Field Name",
+                "code": "Field Code",
+                "type": "Field Type",
+                "required": "Required",
+                "options": "Options",
+                "description": "Description",
+                "active": "Active",
+                "actions": "Actions"
+            }
+        }
+    },
+    "settings": {
+        "notifications": {
+            "title": "Notifications",
+            "description": "Manage your notification preferences.",
+            "email": "Email Notifications",
+            "system": "System Messages"
+        },
+        "security": {
+            "title": "Security",
+            "description": "Manage your account security.",
+            "2fa": "Two-Factor Authentication",
+            "change_password": "Change Password"
+        },
+        "system": {
+            "title": "System Info",
+            "description": "View system version and info."
+        }
+    },
+    "dashboard": {
+        "total_suppliers": "Total Suppliers",
+        "excellent_suppliers": "Excellent Suppliers",
+        "new_suppliers": "New Suppliers (This Month)",
+        "avg_score": "Average Score",
+        "quality_trend": "Supply Chain Quality Trend (Avg Score)",
+        "supplier_distribution": "Supplier Type Distribution",
+        "score_distribution": "Evaluation Score Distribution",
+        "grade_ab": "Grade A & B",
+        "overall_performance": "Overall Performance",
+        "monthly_addition_trend": "Monthly Addition Trend & Quality",
+        "business_type_distribution": "Industry / Type Distribution",
+        "score_range_distribution": "Score Range Distribution",
+        "grade_distribution": "Grade Distribution",
+        "status_distribution": "Status Distribution",
+        "high_quality": "High Quality",
+        "low_quality": "Low Quality",
+        "quality_proportion": "High vs Low Quality",
+        "added_this_year": "Added this year",
+        "top_suppliers": "Top 3 Suppliers",
+        "rank": "Rank",
+        "projects": "Projects"
+    },
+    "suppliers": {
+        "title": "Suppliers",
+        "add": "Add Supplier",
+        "import": "Import",
+        "import_success": "Successfully imported {{count}} suppliers.",
+        "import_failed": "Import failed.",
+        "import_error": "An error occurred during import.",
+        "export": "Export",
+        "export_selected": "Export Selected ({{count}})",
+        "export_all": "Export All",
+        "export_success": "Export successful",
+        "export_success_desc": "The XLSX file is downloading.",
+        "export_error": "Export failed",
+        "export_error_desc": "There was a problem exporting the data.",
+        "view_evaluations": "View Evaluations",
+        "evaluation_history": "Evaluation History",
+        "search_placeholder": "Search suppliers...",
+        "fields": {
+            "name": "Name",
+            "business_type": "Business Type",
+            "position": "Position",
+            "status": "Status",
+            "legal_representative": "Legal Representative",
+            "registered_capital": "Registered Capital",
+            "bank_name": "Bank Name",
+            "account_number": "Account Number",
+            "taxpayer_type": "Taxpayer Type",
+            "qualification_name": "Qualification Name",
+            "certificate_no": "Certificate No",
+            "start_date": "Start Date",
+            "end_date": "Expire Date",
+            "effective_date": "Effective Date",
+            "expiry_date": "Expiry Date",
+            "primary_contact": "Primary Contact",
+            "phone": "Phone",
+            "email": "Email",
+            "address": "Address",
+            "website": "Website",
+            "service_region": "Service Country/Region",
+            "actions": "Actions"
+        },
+        "form": {
+            "create_title": "Create New Supplier",
+            "create_btn": "Create Supplier",
+            "success_msg": "Supplier saved successfully",
+            "tabs": {
+                "basic": "Basic Info",
+                "contact": "Contact Details",
+                "finance": "Bank Info",
+                "business": "Business & Quals",
+                "operation": "Operation",
+                "contracts": "Contracts"
+            },
+            "fields": {
+                "is_in_library": "Is in Qualified Library",
+                "is_in_library_desc": "Uncheck if this is a temporary or potential supplier.",
+                "contact_person": "Contact Person",
+                "phone": "Phone Number",
+                "email": "Email",
+                "website": "Website",
+                "address": "Address",
+                "industry": "Industry Sector",
+                "qualifications": "Qualifications / Certificates",
+                "qualifications_desc": "You can verify certificates later by uploading files.",
+                "service_country": "Service Country/Region",
+                "cooperation_years": "Years of Cooperation",
+                "problem_record": "Problem Record / Blacklist Notes"
+            },
+            "placeholders": {
+                "legal_representative": "e.g. John Smith",
+                "supplier_name": "Acme Corp",
+                "credit_code": "91110...",
+                "contact_person": "John Doe",
+                "phone": "+1 234...",
+                "email": "john@example.com",
+                "website": "https://...",
+                "address": "123 Main St, City, Country",
+                "business_type": "e.g. Construction, IT Services",
+                "industry": "e.g. Real Estate",
+                "qualifications": "List certificates, licenses, grades...",
+                "service_country": "e.g. China, USA",
+                "problem_record": "Any historical issues or bad records..."
+            }
+        },
+        "tab": {
+            "bank_info": "Bank Information"
+        }
+    },
+    "projects": {
+        "title": "Projects",
+        "add": "New Project",
+        "view_contracts": "View Contracts",
+        "contract_history": "Contract Records",
+        "search_placeholder": "Search projects by code or name...",
+        "edit_title": "Edit Project",
+        "create_title": "Create Project",
+        "fields": {
+            "code": "Project Code",
+            "name": "Project Name",
+            "manager": "Project Manager",
+            "status": "Status",
+            "actions": "Actions"
+        },
+        "placeholders": {
+            "status": "Select status"
+        },
+        "actions": {
+            "save": "Save Project",
+            "saving": "Saving...",
+            "create_success": "Project created successfully",
+            "create_failed": "Failed to create project",
+            "update_success": "Project updated successfully",
+            "update_failed": "Failed to update project",
+            "delete_success": "Project deleted successfully",
+            "delete_failed": "Failed to delete project"
+        }
+    },
+    "contracts": {
+        "title": "Contracts",
+        "add": "New Contract",
+        "search_placeholder": "Search contracts...",
+        "edit_title": "Edit Contract",
+        "create_title": "Create Contract",
+        "fields": {
+            "code": "Contract Code",
+            "name": "Contract Name",
+            "amount": "Amount",
+            "signed_at": "Signed Date",
+            "project": "Project",
+            "supplier": "Supplier (Winning Bidder)",
+            "actions": "Actions"
+        },
+        "placeholders": {
+            "project": "Select Project",
+            "supplier": "Select Supplier"
+        },
+        "actions": {
+            "save": "Save Contract",
+            "saving": "Saving...",
+            "create_success": "Contract created successfully",
+            "create_failed": "Failed to create contract",
+            "update_success": "Contract updated successfully",
+            "update_failed": "Failed to update contract",
+            "delete_success": "Contract deleted successfully",
+            "delete_failed": "Failed to delete contract"
+        }
+    },
+    "evaluations": {
+        "title": "Evaluations",
+        "create_task": "Create Evaluation Task",
+        "history_title": "Evaluation History",
+        "detail_title": "Evaluation Detail",
+        "detail_subtitle": "Evaluating {{supplier}} for {{year}}",
+        "evaluate_btn": "Evaluate",
+        "submit_btn": "Submit Evaluation",
+        "submit_success": "Evaluation Submitted",
+        "submit_success_desc": "The evaluation has been successfully submitted.",
+        "errors": {
+            "comment_mandatory": "A comment is mandatory for low score on {{indicator}}",
+            "problem_mandatory": "A Problem Record is mandatory when 'Not Recommended' is selected."
+        },
+        "grades": {
+            "Recommended": "Recommended",
+            "Prudent": "Prudent",
+            "NotRecommended": "Not Recommended"
+        },
+        "overall_evaluation_desc": "Please select the evaluation grade based on the supplier's overall performance.",
+        "select_grade": "Select grade",
+        "dialog": {
+            "title": "Evaluate {{name}}",
+            "description": "Enter scores and qualitative feedback.",
+            "problem": "Problem Record / Qualitative Feedback",
+            "problem_placeholder": "Describe any issues or feedback...",
+            "submit": "Submit Evaluation",
+            "cancel": "Cancel"
+        },
+        "fields": {
+            "project": "Project",
+            "template": "Template",
+            "supplier": "Supplier",
+            "year": "Year",
+            "year_suffix": "",
+            "status": "Status",
+            "score": "Score",
+            "evaluator": "Evaluator",
+            "grade": "Grade",
+            "date": "Date",
+            "feedback": "Feedback",
+            "problem_record": "Problem Record",
+            "overall_evaluation": "Overall Evaluation",
+            "evaluation": "Evaluation",
+            "action": "Action"
+        }
+    },
+    "common": {
+        "actions": {
+            "edit": "Edit",
+            "delete": "Delete",
+            "confirm_delete": "Are you sure you want to delete this item?",
+            "suspend": "Suspend",
+            "confirm_suspend": "Are you sure you want to suspend this supplier?",
+            "loading": "Loading...",
+            "no_data": "No data found.",
+            "cancel": "Cancel",
+            "confirm": "Confirm",
+            "saving": "Saving...",
+            "add": "Add",
+            "save": "Save",
+            "view": "View",
+            "back": "Back",
+            "success": "Success",
+            "updated": "Updated successfully",
+            "deleted": "Deleted successfully",
+            "title": "Actions",
+            "total_count": "Total: {{count}}",
+            "prev": "Previous",
+            "next": "Next",
+            "all": "All",
+            "all_projects": "All Projects",
+            "all_types": "All Types",
+            "all_statuses": "All Statuses",
+            "all_grades": "All Grades"
+        },
+        "no_data": "No data found.",
+        "error": "Error",
+        "status": {
+            "Active": "Active",
+            "Suspended": "Suspended",
+            "Eliminated": "Eliminated",
+            "Completed": "Completed",
+            "Pending": "Pending",
+            "Draft": "Draft",
+            "Blacklisted": "Blacklisted"
+        },
+        "business_types": {
+            "Construction": "Construction",
+            "Material": "Material",
+            "Equipment": "Equipment",
+            "Service": "Service",
+            "Other": "Other"
+        }
+    },
+    "auth": {
+        "change_password": {
+            "title": "Change Password",
+            "old_password": "Old Password",
+            "new_password": "New Password",
+            "confirm_password": "Confirm New Password",
+            "success": "Password changed successfully",
+            "error": "Failed to change password",
+            "mismatch": "Passwords do not match",
+            "min_length": "Password must be at least 6 characters",
+            "old_required": "Old password is required",
+            "confirm_required": "Confirm password is required",
+            "incorrect_old_password": "Incorrect old password",
+            "user_not_found": "User not found"
+        }
+    }
+}

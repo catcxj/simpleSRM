@@ -1,0 +1,421 @@
+{
+    "app": {
+        "title": "内部单位供应链管理系统",
+        "dashboard": "首页",
+        "suppliers": "供应链资源库",
+        "projects": "项目管理",
+        "contracts": "合同管理",
+        "evaluation": "评价管理",
+        "settings": "个人设置",
+        "logout": "退出登录",
+        "system_name": "供应链系统",
+        "system_management": "系统管理",
+        "users": "用户管理",
+        "roles": "角色管理",
+        "configuration": "系统配置"
+    },
+    "login": {
+        "title": "SimpleSRM 登录",
+        "welcome": "欢迎回来",
+        "username": "用户名",
+        "password": "密码",
+        "submit": "登录",
+        "logging_in": "登录中...",
+        "failed_message": "登录失败，请检查您的凭据。"
+    },
+    "system": {
+        "users": {
+            "title": "用户管理",
+            "add": "新增用户",
+            "search_placeholder": "搜索用户...",
+            "fields": {
+                "username": "用户名",
+                "name": "姓名",
+                "unit": "所属单位",
+                "role": "角色",
+                "status": "状态",
+                "actions": "操作"
+            },
+            "confirm_delete": "确认删除此用户吗?"
+        },
+        "roles": {
+            "title": "角色管理",
+            "add": "新增角色",
+            "fields": {
+                "name": "角色名称",
+                "description": "描述",
+                "businessTypes": "数据权限 (业务类别)",
+                "actions": "操作"
+            },
+            "permissions": {
+                "title": "权限资源",
+                "read_suppliers": "供应链资源库 (读)",
+                "write_suppliers": "供应链资源库 (写)",
+                "read_projects": "项目管理 (读)",
+                "write_projects": "项目管理 (写)",
+                "read_contracts": "合同管理 (读)",
+                "write_contracts": "合同管理 (写)",
+                "read_evaluations": "年度评价 (读)",
+                "write_evaluations": "年度评价 (写)",
+                "read_users": "系统用户 (读)",
+                "write_users": "系统用户 (写)",
+                "read_roles": "系统角色 (读)",
+                "write_roles": "系统角色 (写)",
+                "read_config": "系统配置 (读)"
+            },
+            "confirm_delete": "确认删除此角色吗?"
+        },
+        "config": {
+            "title": "系统配置",
+            "subtitle": "管理实体自定义字段和系统设置",
+            "supplier_fields_title": "供应商自定义属性",
+            "supplier_fields_desc": "为供应商档案定义自定义字段。",
+            "add_attribute": "添加属性",
+            "edit_attribute": "编辑属性",
+            "other_entities": "其他实体属性",
+            "evaluation_settings": "评价设置",
+            "evaluation_settings_desc": "配置评价模块的后台任务设置。",
+            "evaluation_frequency": "评价任务生成频率",
+            "evaluation_frequency_desc": "选择自动为活跃项目生成评价任务的频率。",
+            "select_frequency": "选择频率",
+            "frequency_yearly": "年度",
+            "frequency_quarterly": "季度",
+            "frequency_monthly": "月度",
+            "evaluation_period_saved": "评价周期已保存",
+            "tabs": {
+                "supplier_attribute": "供应商属性",
+                "evaluation_task": "评价任务",
+                "other": "其他设置"
+            },
+            "fields": {
+                "key": "键",
+                "value": "值",
+                "name": "字段名称",
+                "code": "字段编码",
+                "type": "字段类型",
+                "required": "是否必填",
+                "options": "选项",
+                "description": "描述",
+                "active": "启用",
+                "actions": "操作"
+            }
+        }
+    },
+    "settings": {
+        "notifications": {
+            "title": "通知设置",
+            "description": "管理您的通知偏好。",
+            "email": "邮件通知",
+            "system": "系统消息"
+        },
+        "security": {
+            "title": "安全设置",
+            "description": "管理您的账号安全。",
+            "2fa": "双重认证",
+            "change_password": "修改密码"
+        },
+        "system": {
+            "title": "系统信息",
+            "description": "查看系统版本和信息。"
+        }
+    },
+    "dashboard": {
+        "total_suppliers": "供应链资源总数",
+        "excellent_suppliers": "优质供应商数",
+        "new_suppliers": "本月新增",
+        "avg_score": "平均评分",
+        "quality_trend": "供应链质量趋势（平均分）",
+        "supplier_distribution": "供应商类型分布",
+        "score_distribution": "评价得分分布",
+        "grade_ab": "A & B 级供应商",
+        "overall_performance": "整体表现",
+        "monthly_addition_trend": "月度新增趋势与质量",
+        "business_type_distribution": "行业/类型分布",
+        "score_range_distribution": "评分范围分布",
+        "grade_distribution": "等级分布",
+        "status_distribution": "状态分布",
+        "high_quality": "高质量",
+        "low_quality": "低质量",
+        "quality_proportion": "高质量与低质量占比",
+        "added_this_year": "今年以来新增",
+        "top_suppliers": "Top 3 供应商榜单",
+        "rank": "排名",
+        "projects": "参与项目",
+        "from_last_year": "较去年同期"
+    },
+    "suppliers": {
+        "title": "供应链资源库",
+        "add": "新增供应商",
+        "import": "导入",
+        "import_success": "成功导入 {{count}} 个供应商。",
+        "import_failed": "导入失败。",
+        "import_error": "导入过程中发生错误。",
+        "export": "导出",
+        "export_selected": "导出所选 ({{count}})",
+        "export_all": "导出全部",
+        "export_success": "导出成功",
+        "export_success_desc": "XLSX 文件正在下载中。",
+        "export_error": "导出失败",
+        "export_error_desc": "导出数据时出现问题。",
+        "view_evaluations": "查看评价",
+        "evaluation_history": "评价记录",
+        "search_placeholder": "搜索供应商名称、证照代码...",
+        "fields": {
+            "name": "企业名称",
+            "business_type": "业务类别",
+            "contact_person": "联系人",
+            "position": "职务",
+            "status": "入库状态",
+            "legal_representative": "法定代表人",
+            "registered_capital": "注册资本",
+            "bank_name": "开户行",
+            "account_number": "银行账号",
+            "taxpayer_type": "纳税人类型",
+            "qualification_name": "资质名称",
+            "certificate_no": "证书编号",
+            "start_date": "生效日期",
+            "end_date": "失效日期",
+            "effective_date": "生效日期",
+            "expiry_date": "失效日期",
+            "primary_contact": "主要联系人",
+            "phone": "联系电话",
+            "email": "电子邮箱",
+            "address": "公司地址",
+            "website": "公司网址",
+            "service_region": "服务国家/地区",
+            "actions": "操作"
+        },
+        "form": {
+            "create_title": "创建新供应商",
+            "create_btn": "创建供应商",
+            "success_msg": "供应商保存成功",
+            "tabs": {
+                "basic": "基本信息",
+                "contact": "联系方式",
+                "finance": "财务信息",
+                "business": "业务/资质",
+                "operation": "经营信息",
+                "contracts": "合同列表"
+            },
+            "fields": {
+                "is_in_library": "是否在合格库",
+                "is_in_library_desc": "如果是临时或潜在供应商请取消勾选",
+                "contact_person": "联系人",
+                "phone": "电话",
+                "email": "邮箱",
+                "website": "网址",
+                "address": "地址",
+                "industry": "行业领域",
+                "qualifications": "资质证书",
+                "qualifications_desc": "后续可上传文件验证",
+                "service_country": "服务国家/地区",
+                "cooperation_years": "合作年限",
+                "problem_record": "问题记录 / 黑名单备注"
+            },
+            "placeholders": {
+                "legal_representative": "例如：张三",
+                "supplier_name": "例如：某某公司",
+                "contact_person": "例如：张三",
+                "phone": "+86 ...",
+                "email": "john@example.com",
+                "website": "https://...",
+                "address": "省/市/区/街道",
+                "business_type": "例如：建筑施工、IT服务",
+                "industry": "例如：房地产",
+                "qualifications": "列出证书、许可证、等级...",
+                "service_country": "例如：中国、美国",
+                "problem_record": "历史问题或不良记录..."
+            }
+        },
+        "tab": {
+            "bank_info": "财务信息"
+        },
+        "errors": {
+            "registration_number_exists": "该代码已存在，请确认是否重复录入。"
+        }
+    },
+    "projects": {
+        "title": "项目管理",
+        "add": "新增项目",
+        "view_contracts": "查看合同",
+        "contract_history": "合同记录",
+        "search_placeholder": "搜索项目代码或名称...",
+        "edit_title": "编辑项目",
+        "create_title": "创建项目",
+        "fields": {
+            "code": "项目编号",
+            "name": "项目名称",
+            "manager": "项目负责人",
+            "status": "状态",
+            "actions": "操作"
+        },
+        "placeholders": {
+            "status": "选择项目状态",
+            "manager": "选择项目负责人"
+        },
+        "actions": {
+            "save": "保存项目",
+            "saving": "保存中...",
+            "create_success": "项目创建成功",
+            "create_failed": "项目创建失败",
+            "update_success": "项目更新成功",
+            "update_failed": "项目更新失败",
+            "delete_success": "项目删除成功",
+            "delete_failed": "项目删除失败"
+        }
+    },
+    "contracts": {
+        "title": "合同管理",
+        "add": "新增合同",
+        "search_placeholder": "搜索合同...",
+        "edit_title": "编辑合同",
+        "create_title": "创建合同",
+        "fields": {
+            "code": "合同编号",
+            "name": "合同名称",
+            "amount": "合同金额",
+            "signed_at": "合同签订时间",
+            "project": "所属项目",
+            "supplier": "中标单位 (供应商)",
+            "actions": "操作"
+        },
+        "placeholders": {
+            "project": "选择所属项目",
+            "supplier": "搜索并选择供应商",
+            "code_auto": "留空将按项目自动生成"
+        },
+        "actions": {
+            "save": "保存合同",
+            "saving": "保存中...",
+            "create_success": "合同创建成功",
+            "create_failed": "合同创建失败",
+            "update_success": "合同更新成功",
+            "update_failed": "合同更新失败",
+            "delete_success": "合同删除成功",
+            "delete_failed": "合同删除失败"
+        }
+    },
+    "evaluations": {
+        "title": "评价管理",
+        "create_task": "创建评价任务",
+        "history_title": "评价历史",
+        "detail_title": "评价详情",
+        "detail_subtitle": "正在评价 {{supplier}} ({{year}}年度)",
+        "total_weight": "(总权重: 100%)",
+        "type_quantitative": "定量指标",
+        "type_qualitative": "定性指标",
+        "evaluate_btn": "评价",
+        "submit_btn": "提交评价",
+        "submit_success": "评价已提交",
+        "submit_success_desc": "该供应商的年度评价已成功提交。",
+        "indicators_and_weights": "评价指标 & 权重",
+        "indicators": "评价指标",
+        "indicator_placeholder": "例如：服务质量",
+        "weight": "权重 (%)",
+        "total_weight_label": "总权重：",
+        "errors": {
+            "comment_mandatory": "必须为低分项（{{indicator}}）填写意见反馈",
+            "problem_mandatory": "评价结果为“不推荐”时，必须填写问题记录"
+        },
+        "grades": {
+            "Recommended": "推荐",
+            "Prudent": "审慎",
+            "NotRecommended": "不推荐"
+        },
+        "overall_evaluation_desc": "请根据供应商的综合表现选择评价等级。",
+        "select_grade": "选择评价等级",
+        "dialog": {
+            "title": "评价供应商：{{name}}",
+            "description": "请输入评分和定性反馈。",
+            "problem": "问题记录 / 定性反馈",
+            "problem_placeholder": "描述任何问题或反馈...",
+            "submit": "提交评价",
+            "cancel": "取消"
+        },
+        "fields": {
+            "project": "项目",
+            "template": "评价模板",
+            "supplier": "供应商",
+            "year": "年度",
+            "year_suffix": "年",
+            "status": "状态",
+            "score": "评分",
+            "evaluator": "评价人",
+            "grade": "等级",
+            "date": "日期",
+            "feedback": "反馈",
+            "problem_record": "问题记录",
+            "overall_evaluation": "综合评价",
+            "evaluation": "评价",
+            "action": "操作"
+        }
+    },
+    "common": {
+        "actions": {
+            "edit": "编辑",
+            "delete": "删除",
+            "confirm_delete": "确认删除此项吗?",
+            "suspend": "停用",
+            "confirm_suspend": "确认停用该供应商吗?",
+            "loading": "加载中...",
+            "no_data": "暂无数据",
+            "cancel": "取消",
+            "confirm": "确认",
+            "saving": "保存中...",
+            "add": "新增",
+            "save": "保存",
+            "view": "查看",
+            "back": "返回",
+            "success": "成功",
+            "updated": "更新成功",
+            "deleted": "删除成功",
+            "title": "操作",
+            "total_count": "总计: {{count}} 项",
+            "prev": "上一页",
+            "next": "下一页",
+            "all": "全部",
+            "all_projects": "所有项目",
+            "all_types": "所有类别",
+            "all_statuses": "所有状态",
+            "all_grades": "所有等级"
+        },
+        "no_data": "暂无数据",
+        "error": "错误",
+        "validation_error": "校验错误",
+        "form_error_desc": "表单填写有误，请检查。",
+        "status": {
+            "Active": "在库",
+            "Suspended": "停用",
+            "Eliminated": "淘汰",
+            "Completed": "已完成",
+            "Submitted": "已提交",
+            "Pending": "待审核",
+            "Draft": "草稿",
+            "Blacklisted": "黑名单",
+            "undefined": "未知状态"
+        },
+        "business_types": {
+            "Construction": "建筑施工",
+            "Material": "原材料",
+            "Equipment": "设备",
+            "Service": "服务",
+            "Other": "其他"
+        }
+    },
+    "auth": {
+        "change_password": {
+            "title": "修改密码",
+            "old_password": "旧密码",
+            "new_password": "新密码",
+            "confirm_password": "确认新密码",
+            "success": "密码修改成功",
+            "error": "密码修改失败",
+            "mismatch": "新密码与确认密码不一致",
+            "min_length": "密码长度至少为 6 位",
+            "old_required": "请输入旧密码",
+            "confirm_required": "请确认新密码",
+            "incorrect_old_password": "旧密码不正确",
+            "user_not_found": "未找到用户"
+        }
+    }
+}

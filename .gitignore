@@ -1,0 +1,58 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+**/dist/
+*.tsbuildinfo
+**/*.tsbuildinfo
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+**/.env
+**/.env.*
+
+# Database
+*.db
+**/*.db
+*.db-journal
+**/*.db-journal
+*.sqlite
+**/*.sqlite
+
+# Logs
+*.log
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+# Skills (as requested)
+skills/
+**/skills/
+
+# Misc
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Coverage
+coverage/
+**/coverage/
+
+# OS/IDEs
+.DS_Store
+*.swp
+*.bak
+*.tmp
+*.temp
+
+# Root markdown files
+/*.md

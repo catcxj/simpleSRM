@@ -1,0 +1,371 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------
+// Core Domain: Resource Lifecycle Manager
+// ---------------------------------------------------------
+
+model Supplier {
+  id              String    @id @default(uuid())
+  name            String    @unique
+  registrationNumber String? @unique @map("registration_number")
+  status          String    @default("Draft") // 'Draft', 'Pending', 'Active', 'Suspended', 'Eliminated', 'Blacklisted'
+  
+  // Basic Info
+  legalRepresentative String? @map("legal_representative")
+  registeredCapital   Float?  @map("registered_capital") // In ten thousand CNY
+  establishDate       DateTime? @map("establish_date")
+  companyType         String?   @map("company_type") // SOE, Private, Foreign
+  
+  // Operational Info
+  businessType    String    @map("business_type") // e.g., 'Construction', 'Electromechanical'
+  industry        String?
+  serviceRegion   String?   @map("service_region") // Replaced Country with Region as per spec
+  address         String?   @map("address")
+  website         String?   @map("website")
+  
+  // Legacy/Simple Fields (To be phased out or kept as cache)
+  contactInfo     String?   @map("contact_info") 
+  
+  // Audit & Metrics
+  cooperationYears Int      @default(0) @map("cooperation_years")
+  problemRecord   String?   @map("problem_record")
+
+  // Relations
+  contacts        SupplierContact[]
+  qualifications  SupplierQualification[]
+  bankInfos       SupplierBankInfo[]
+  attributeValues AttributeValue[]
+  contracts       Contract[]
+  evaluationRecords EvaluationRecord[]
+
+  createdById     String?   @map("created_by_id")
+  creator         User?     @relation("SupplierCreator", fields: [createdById], references: [id])
+
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  deletedAt       DateTime? @map("deleted_at")
+
+  @@map("suppliers")
+  @@index([businessType])
+  @@index([status])
+}
+
+model SupplierContact {
+  id          String   @id @default(uuid())
+  supplierId  String   @map("supplier_id")
+  name        String
+  position    String?
+  phone       String
+  email       String?
+  isPrimary   Boolean  @default(false) @map("is_primary")
+  
+  supplier    Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  @@map("supplier_contacts")
+}
+
+model SupplierQualification {
+  id            String    @id @default(uuid())
+  supplierId    String    @map("supplier_id")
+  name          String    // License Name
+  issuingAuthority String? @map("issuing_authority")
+  certificateNo String?   @map("certificate_no")
+  effectiveDate DateTime? @map("effective_date")
+  expiryDate    DateTime? @map("expiry_date")
+  attachmentUrl String?   @map("attachment_url")
+
+  supplier      Supplier  @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  @@map("supplier_qualifications")
+}
+
+model SupplierBankInfo {
+  id            String   @id @default(uuid())
+  supplierId    String   @map("supplier_id")
+  bankName      String   @map("bank_name")
+  accountNumber String   @map("account_number")
+  taxpayerType  String?  @map("taxpayer_type") // General / Small-scale
+
+  supplier      Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  @@map("supplier_bank_infos")
+}
+
+model Project {
+  id        String    @id @default(uuid())
+  code      String    @unique
+  name      String
+  type      String?
+  projectManager String? @map("project_manager")
+  status    String    @default("Active") // Active, Completed, Suspended
+  
+  startDate DateTime? @map("start_date")
+  endDate   DateTime? @map("end_date")
+
+  contracts Contract[]
+  evaluationTasks EvaluationTask[] // Specific tasks for this project
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("projects")
+}
+
+model Contract {
+  id         String    @id @default(uuid())
+  code       String    @unique
+  name       String
+  type       String?   // Purchase, Subcontract, Lease
+  amount     Float?
+  signedAt   DateTime? @map("signed_at")
+  
+  // Payment Terms
+  settlementMethod String? @map("settlement_method")
+  paymentRatio     String? @map("payment_ratio") // e.g., "30-30-40"
+  durationDays     Int?    @map("duration_days")
+  warrantyMonths   Int?    @map("warranty_months")
+
+  projectId  String    @map("project_id")
+  supplierId String    @map("supplier_id")
+
+  project    Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  supplier   Supplier  @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  deletedAt  DateTime? @map("deleted_at")
+
+  @@map("contracts")
+  @@index([projectId])
+  @@index([supplierId])
+}
+
+// ---------------------------------------------------------
+// Core Domain: Evaluation Orchestrator
+// ---------------------------------------------------------
+
+model EvaluationTemplate {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  indicators  String   @default("[]") // JSON string of indicators config (key, weight, type)
+  isActive    Boolean  @default(true) @map("is_active")
+
+  tasks       EvaluationTask[]
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("evaluation_templates")
+}
+
+model EvaluationTask {
+  id        String    @id @default(uuid())
+  year      Int
+  period    String    @default("Yearly") // 'Yearly', 'ProjectEnd'
+  status    String    @default("Pending") // 'Pending', 'In Progress', 'Completed'
+  deadline  DateTime
+  
+  templateId String?  @map("template_id")
+  projectId  String?  @map("project_id") // Optional link to project (for Event-based evaluation)
+
+  template  EvaluationTemplate? @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  project   Project?            @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  records   EvaluationRecord[]
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@map("evaluation_tasks")
+}
+
+model EvaluationRecord {
+  id          String    @id @default(uuid())
+  taskId      String    @map("task_id")
+  supplierId  String    @map("supplier_id")
+  
+  totalScore  Float     @default(0) @map("total_score")
+  grade       String?   // A, B, C, D
+  problem     String?   // Qualitative description of issues
+  suggestion  String?   // Improvement suggestion
+  evaluatorId String?   @map("evaluator_id")
+
+  status      String    @default("Draft") // Draft, Submitted, Audited
+
+  task        EvaluationTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  supplier    Supplier       @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  evaluator   User?          @relation(fields: [evaluatorId], references: [id], onDelete: SetNull)
+  details     EvaluationDetail[]
+
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("evaluation_records")
+  @@index([taskId])
+  @@index([supplierId])
+  @@index([totalScore])
+}
+
+model EvaluationDetail {
+  id           String    @id @default(uuid())
+  recordId     String    @map("record_id")
+  indicatorKey String    @map("indicator_key")
+  score        Float
+  weight       Float
+  comment      String?   // Mandatory if score is low
+
+  record       EvaluationRecord @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@map("evaluation_details")
+  @@index([recordId])
+}
+
+// ---------------------------------------------------------
+// Core Domain: Dynamic Configuration (New)
+// ---------------------------------------------------------
+
+model AttributeDefinition {
+  id           String   @id @default(uuid())
+  targetEntity String   @map("target_entity") // 'Supplier', 'Project'
+  key          String
+  label        String
+  type         String   // 'Text', 'Number', 'Date', 'Select'
+  options      String?  // JSON string for Select options
+  isRequired   Boolean  @default(false) @map("is_required")
+  order        Int      @default(0)
+
+  values       AttributeValue[]
+
+  @@map("attribute_definitions")
+  @@unique([targetEntity, key])
+}
+
+model AttributeValue {
+  id           String   @id @default(uuid())
+  entityId     String   @map("entity_id")
+  attributeId  String   @map("attribute_id")
+  value        String
+
+  attribute    AttributeDefinition @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+  supplier     Supplier?           @relation(fields: [entityId], references: [id], onDelete: Cascade) 
+  // Note: Prisma needs explicit relations for Foreign Keys if enforcing Referencial Integrity. 
+  // For simplicity in Dynamic Attributes, we might rely on application-level integrity or define optional relations for each entity type.
+  // Here we explicitly link Supplier for safety.
+
+  @@map("attribute_values")
+  @@index([entityId])
+  @@unique([entityId, attributeId])
+}
+
+model SystemDictionary {
+  id           String   @id @default(uuid())
+  category     String   // 'BusinessType', 'Industry'
+  key          String
+  label        String
+  parentId     String?  @map("parent_id") // For Infinite Level hierarchy
+  order        Int      @default(0)
+
+  parent       SystemDictionary?  @relation("DictionaryHierarchy", fields: [parentId], references: [id])
+  children     SystemDictionary[] @relation("DictionaryHierarchy")
+
+  @@map("system_dictionaries")
+  @@index([category])
+}
+
+// ---------------------------------------------------------
+// System Management Domain
+// ---------------------------------------------------------
+
+model Department {
+  id        String   @id @default(uuid())
+  name      String
+  parentId  String?  @map("parent_id")
+  code      String?  @unique
+  
+  parent    Department?   @relation("DeptHierarchy", fields: [parentId], references: [id])
+  children  Department[]  @relation("DeptHierarchy")
+  users     User[]
+
+  @@map("departments")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  username    String   @unique
+  password    String
+  name        String
+  employeeId  String?  @unique @map("employee_id")
+  email       String?
+  phone       String?
+  position    String?
+  status      String   @default("Active") // 'Active', 'Inactive', 'Resigned'
+  lastLogin   DateTime? @map("last_login")
+
+  unit        String?
+
+  departmentId String? @map("department_id")
+  department   Department? @relation(fields: [departmentId], references: [id])
+
+  roleId      String?  @map("role_id")
+  role        Role?    @relation(fields: [roleId], references: [id])
+  
+  evaluations     EvaluationRecord[] 
+  createdSuppliers Supplier[] @relation("SupplierCreator")
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  businessTypes String? @map("business_types") // Stores JSON array of business type keys
+  
+  users       User[]
+  permissions Permission[]
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(uuid())
+  action      String   // e.g., 'read', 'write', 'delete'
+  resource    String   // e.g., 'users', 'suppliers', 'evaluations'
+  description String?
+
+  roles       Role[]
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("permissions")
+  @@unique([action, resource])
+}
+
+// Keeping SystemConfig for simple Key-Value settings (e.g. global switches)
+model SystemConfig {
+  id          String   @id @default(uuid())
+  category    String   
+  key         String   
+  value       String   
+  description String?
+  isActive    Boolean  @default(true) @map("is_active")
+
+  @@map("system_configs")
+  @@index([category])
+  @@unique([category, key, value])
+}

@@ -1,0 +1,35 @@
+{
+  "name": "牛逼公司-Test-123456",
+  "businessType": "工程测绘",
+  "industry": "水务",
+  "status": "Pending",
+  "legalRepresentative": "",
+  "registeredCapital": 0,
+  "companyType": "",
+  "address": "杭州12",
+  "website": "",
+  "serviceRegion": "中国",
+  "isInLibrary": true,
+  "cooperationYears": 0,
+  "problemRecord": "",
+  "contacts": [
+    {
+      "name": "键位13",
+      "position": "总尽力2",
+      "phone": "5678",
+      "email": "",
+      "isPrimary": true
+    }
+  ],
+  "qualifications": [
+    {
+      "name": "资质2",
+      "issuingAuthority": null,
+      "certificateNo": "123",
+      "effectiveDate": "2026-02-05T00:00:00.000Z",
+      "expiryDate": "2026-02-27T00:00:00.000Z",
+      "attachmentUrl": null
+    }
+  ],
+  "bankInfos": []
+}
