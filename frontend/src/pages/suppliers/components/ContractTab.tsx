@@ -47,7 +47,7 @@ export function ContractTab() {
                                         <TableCell className="font-medium">{contract.code}</TableCell>
                                         <TableCell>{contract.name}</TableCell>
                                         <TableCell>{contract.project?.name || "-"}</TableCell>
-                                        <TableCell>{Number(contract.amount).toFixed(2)} 万元</TableCell>
+                                        <TableCell>{Number(contract.amount).toFixed(2)}</TableCell>
                                         <TableCell>{new Date(contract.signedAt).toLocaleDateString()}</TableCell>
                                     </TableRow>
                                 ))

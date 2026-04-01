@@ -508,7 +508,7 @@ export default function ContractsPage() {
                                     <TableCell>{contract.name}</TableCell>
                                     <TableCell>{contract.project?.name || "-"}</TableCell>
                                     <TableCell>{contract.supplier?.name || "-"}</TableCell>
-                                    <TableCell>{contract.amount != null ? Number(contract.amount).toFixed(2) + " 万元" : "-"}</TableCell>
+                                    <TableCell>{contract.amount != null ? Number(contract.amount).toFixed(2) : "-"}</TableCell>
                                     <TableCell>{contract.signedAt ? format(new Date(contract.signedAt), "yyyy-MM-dd") : "-"}</TableCell>
                                     <TableCell>
                                         <DropdownMenu>

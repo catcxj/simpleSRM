@@ -516,7 +516,7 @@ export default function SuppliersPage() {
                                                 <TableCell className="font-medium">{contract.code}</TableCell>
                                                 <TableCell>{contract.name}</TableCell>
                                                 <TableCell>{contract.project?.name || '-'}</TableCell>
-                                                <TableCell>{contract.amount != null ? Number(contract.amount).toFixed(2) + ' 万元' : '-'}</TableCell>
+                                                <TableCell>{contract.amount != null ? Number(contract.amount).toFixed(2) : '-'}</TableCell>
                                                 <TableCell>{contract.signedAt ? new Date(contract.signedAt).toLocaleDateString() : '-'}</TableCell>
                                             </TableRow>
                                         ))}

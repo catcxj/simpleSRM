@@ -71,6 +71,7 @@ export default function ProjectsPage() {
     const [editingProject, setEditingProject] = useState<Project | null>(null);
     const [search, setSearch] = useState("");
     const [viewContractsProjectId, setViewContractsProjectId] = useState<string | null>(null);
+    const [managerPopoverOpen, setManagerPopoverOpen] = useState(false);
     const queryClient = useQueryClient();
 
     const { data: projectContracts, isLoading: isLoadingContracts } = useQuery({
@@ -229,7 +230,7 @@ export default function ProjectsPage() {
                                     render={({ field }: { field: any }) => (
                                         <FormItem className="flex flex-col">
                                             <FormLabel>{t("projects.fields.manager")}</FormLabel>
-                                            <Popover>
+                                            <Popover open={managerPopoverOpen} onOpenChange={setManagerPopoverOpen}>
                                                 <PopoverTrigger asChild>
                                                     <FormControl>
                                                         <Button
@@ -251,14 +252,15 @@ export default function ProjectsPage() {
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
                                                     <Command>
-                                                        <CommandInput placeholder={t("common.actions.search") || "搜索..."} />
+                                                        <CommandInput placeholder={t("common.actions.search")} />
                                                         <CommandList>
-                                                            <CommandEmpty>{t("common.actions.no_results") || "未找到结果"}</CommandEmpty>
+                                                            <CommandEmpty>{t("common.actions.no_results")}</CommandEmpty>
                                                             <CommandGroup>
                                                                 <CommandItem
                                                                     value="none"
                                                                     onSelect={() => {
                                                                         form.setValue("projectManager", "none");
+                                                                        setManagerPopoverOpen(false);
                                                                     }}
                                                                 >
                                                                     <Check
@@ -275,6 +277,7 @@ export default function ProjectsPage() {
                                                                         key={user.id}
                                                                         onSelect={() => {
                                                                             form.setValue("projectManager", user.name);
+                                                                            setManagerPopoverOpen(false);
                                                                         }}
                                                                     >
                                                                         <Check
@@ -444,7 +447,7 @@ export default function ProjectsPage() {
                                         <TableRow key={contract.id}>
                                             <TableCell className="font-medium">{contract.name}</TableCell>
                                             <TableCell>{contract.supplier?.name || "-"}</TableCell>
-                                            <TableCell>{Number(contract.amount).toFixed(2)} 万元</TableCell>
+                                            <TableCell>{Number(contract.amount).toFixed(2)}</TableCell>
                                             <TableCell>{new Date(contract.signedAt).toLocaleDateString()}</TableCell>
                                         </TableRow>
                                     ))}
