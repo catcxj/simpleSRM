@@ -49,6 +49,7 @@ export default function DashboardPage() {
             limit: 3,
             sortBy: 'averageScore',
             sortOrder: 'desc',
+            status: 'Active' as any,
             ...(filters.businessType !== 'all' && { businessType: filters.businessType })
         })
     });
@@ -81,11 +82,7 @@ export default function DashboardPage() {
         value
     }));
 
-    // Quality proportion data
-    const qualityProportionData = [
-        { name: t('dashboard.high_quality', 'High Quality'), value: quality.high },
-        { name: t('dashboard.low_quality', 'Low Quality'), value: quality.low }
-    ];
+
 
     return (
         <div className="space-y-6">
@@ -162,7 +159,7 @@ export default function DashboardPage() {
                     <CardContent>
                         <div className="text-2xl font-bold">{isLoading ? "-" : quality.high}</div>
                         <p className="text-xs text-muted-foreground mt-1">
-                            {t('dashboard.grade_ab', '推荐级别')}
+                            {t('dashboard.grade_recommended')}
                         </p>
                     </CardContent>
                 </Card>
@@ -172,9 +169,9 @@ export default function DashboardPage() {
                         <Activity className="h-4 w-4 text-orange-500" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{isLoading ? "-" : stats.newThisYear}</div>
+                        <div className="text-2xl font-bold">{isLoading ? "-" : stats.newThisMonth}</div>
                         <p className="text-xs text-muted-foreground mt-1">
-                            {t('dashboard.added_this_year', '今年以来新增')}
+                            {t('dashboard.added_this_year', { count: stats.newThisYear })}
                         </p>
                     </CardContent>
                 </Card>
@@ -259,33 +256,8 @@ export default function DashboardPage() {
                 </Card>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="shadow-sm">
-                    <CardHeader>
-                        <CardTitle>{t('dashboard.quality_proportion', 'High vs Low Quality')}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="h-[250px]">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie
-                                        data={qualityProportionData}
-                                        cx="50%"
-                                        cy="50%"
-                                        innerRadius={40}
-                                        outerRadius={80}
-                                        dataKey="value"
-                                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                                    >
-                                        <Cell fill="#4ade80" />
-                                        <Cell fill="#f87171" />
-                                    </Pie>
-                                    <Tooltip contentStyle={{ borderRadius: '8px' }} />
-                                </PieChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </CardContent>
-                </Card>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+
 
                 <Card className="shadow-sm">
                     <CardHeader>

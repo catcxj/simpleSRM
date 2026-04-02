@@ -41,7 +41,7 @@ export default function EvaluationDetailPage() {
     });
 
     const record = recordRes?.data || recordRes;
-    
+
     const { register, handleSubmit, control, watch, formState: { errors } } = useForm({
         values: record ? {
             grade: record.grade === '推荐' ? 'Recommended' : (record.grade === '审慎' ? 'Prudent' : 'NotRecommended'),
@@ -115,8 +115,8 @@ export default function EvaluationDetailPage() {
                             control={control}
                             rules={{ required: true }}
                             render={({ field }) => (
-                                <Select 
-                                    onValueChange={field.onChange} 
+                                <Select
+                                    onValueChange={field.onChange}
                                     value={field.value}
                                     disabled={status === 'Completed' || status === 'Submitted'}
                                 >

@@ -9,21 +9,28 @@ export class BiService {
 
     async getDashboardData(filter: DashboardFilterDto) {
         const year = filter.year || new Date().getFullYear();
+        const now = new Date();
+        const currentMonth = now.getMonth();
+        const currentYear = now.getFullYear();
 
         // Build base supplier filter
-        const supplierWhere: Prisma.SupplierWhereInput = { deletedAt: null };
-        if (filter.businessType) {
+        const supplierWhere: Prisma.SupplierWhereInput = { 
+            deletedAt: null,
+            status: { not: 'Suspended' }
+        };
+        if (filter.businessType && filter.businessType !== 'all') {
             supplierWhere.businessType = filter.businessType;
         }
 
-        // Fetch task to get grades
-        const task = await this.prisma.evaluationTask.findFirst({ where: { year } });
+        // Fetch tasks to get grades for the selected year
+        const tasks = await this.prisma.evaluationTask.findMany({ where: { year } });
+        const taskIds = tasks.map(t => t.id);
 
         let recordsData: any[] = [];
-        if (task) {
+        if (taskIds.length > 0) {
             recordsData = await this.prisma.evaluationRecord.findMany({
                 where: {
-                    taskId: task.id,
+                    taskId: { in: taskIds },
                     supplier: supplierWhere
                 },
                 select: { totalScore: true, updatedAt: true, supplierId: true }
@@ -31,7 +38,7 @@ export class BiService {
         }
 
         // Apply grade filter
-        if (filter.grade) {
+        if (filter.grade && filter.grade !== 'all') {
             const validSupplierIds = recordsData.filter(r => {
                 const s = r.totalScore;
                 let g = '不推荐';
@@ -72,13 +79,24 @@ export class BiService {
         }));
 
         // 2. Trend Analysis
-        const currentYearStart = new Date(year, 0, 1);
+        const selectedYearStart = new Date(year, 0, 1);
+        const selectedYearEnd = new Date(year, 11, 31, 23, 59, 59);
         const lastYearStart = new Date(year - 1, 0, 1);
-        const lastYearEnd = new Date(year - 1, 11, 31);
+        const lastYearEnd = new Date(year - 1, 11, 31, 23, 59, 59);
 
         const newThisYear = await this.prisma.supplier.count({
-            where: { ...supplierWhere, createdAt: { gte: currentYearStart } }
+            where: { ...supplierWhere, createdAt: { gte: selectedYearStart, lte: selectedYearEnd } }
         });
+        
+        // Calculate newThisMonth
+        let newThisMonth = 0;
+        if (year === currentYear) {
+            const currentMonthStart = new Date(currentYear, currentMonth, 1);
+            newThisMonth = await this.prisma.supplier.count({
+                where: { ...supplierWhere, createdAt: { gte: currentMonthStart } }
+            });
+        }
+
         const newLastYear = await this.prisma.supplier.count({
             where: { ...supplierWhere, createdAt: { gte: lastYearStart, lte: lastYearEnd } }
         });
@@ -134,6 +152,7 @@ export class BiService {
             overview: {
                 totalResources,
                 newThisYear,
+                newThisMonth,
                 avgScore,
                 growthRate: newLastYear === 0 ? 100 : Number(((newThisYear - newLastYear) / newLastYear * 100).toFixed(2))
             },
