@@ -195,6 +195,15 @@ export default function SupplierFormPage() {
             delete payload.establishDate;
         }
 
+        if (payload.qualifications) {
+            payload.qualifications = payload.qualifications.map((q: any) => {
+                const newQ = { ...q };
+                if (!newQ.effectiveDate) delete newQ.effectiveDate;
+                if (!newQ.expiryDate) delete newQ.expiryDate;
+                return newQ;
+            });
+        }
+
         if (isEditing) {
             updateMutation.mutate(payload as any)
         } else {

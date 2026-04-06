@@ -141,7 +141,8 @@
         "top_suppliers": "Top 3 供应商榜单",
         "rank": "排名",
         "projects": "参与项目",
-        "from_last_year": "较去年同期"
+        "from_last_year": "较去年同期",
+        "score_range": "分数段"
     },
     "suppliers": {
         "title": "供应链资源库",
@@ -369,6 +370,7 @@
             "success": "成功",
             "updated": "更新成功",
             "deleted": "删除成功",
+            "delete_failed": "删除失败",
             "title": "操作",
             "total_count": "总计: {{count}} 项",
             "prev": "上一页",
@@ -379,7 +381,8 @@
             "all_projects": "所有项目",
             "all_types": "所有类别",
             "all_statuses": "所有状态",
-            "all_grades": "所有等级"
+            "all_grades": "所有等级",
+            "all_ranges": "所有分数段"
         },
         "no_data": "暂无数据",
         "error": "错误",

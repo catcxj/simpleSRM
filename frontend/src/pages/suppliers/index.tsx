@@ -1,9 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getSuppliers, updateSupplier, getSupplierEvaluationHistory, exportSuppliers } from './service';
+import { getSuppliers, updateSupplier, deleteSupplier, getSupplierEvaluationHistory, exportSuppliers } from './service';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Plus, MoreHorizontal, Pencil, Ban, Import, Download, HelpCircle, ChevronLeft, ChevronRight, ArrowUpDown } from 'lucide-react';
+import { Plus, MoreHorizontal, Pencil, Ban, Trash2, Import, Download, HelpCircle, ChevronLeft, ChevronRight, ArrowUpDown } from 'lucide-react';
 import {
     Select,
     SelectContent,
@@ -109,6 +109,17 @@ export default function SuppliersPage() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['suppliers'] });
         },
+    });
+
+    const deleteMutation = useMutation({
+        mutationFn: (id: string) => deleteSupplier(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+            toast({ title: t('common.actions.deleted'), description: t('common.actions.success') });
+        },
+        onError: () => {
+            toast({ variant: 'destructive', title: t('common.actions.error'), description: t('common.actions.delete_failed', 'Delete failed') });
+        }
     });
 
     const exportMutation = useMutation({
@@ -385,6 +396,11 @@ export default function SuppliersPage() {
                                                         if (confirm(t('common.actions.confirm_suspend', 'Are you sure you want to suspend this supplier?'))) suspendMutation.mutate(supplier.id);
                                                     }}>
                                                         <Ban className="mr-2 h-4 w-4" /> {t('common.actions.suspend', 'Suspend')}
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem className="text-destructive" onClick={() => {
+                                                        if (confirm(t('common.actions.confirm_delete', 'Are you sure you want to delete this supplier?'))) deleteMutation.mutate(supplier.id);
+                                                    }}>
+                                                        <Trash2 className="mr-2 h-4 w-4" /> {t('common.actions.delete', 'Delete')}
                                                     </DropdownMenuItem>
                                                 </DropdownMenuContent>
                                             </DropdownMenu>

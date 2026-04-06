@@ -140,7 +140,8 @@
         "added_this_year": "Added this year",
         "top_suppliers": "Top 3 Suppliers",
         "rank": "Rank",
-        "projects": "Projects"
+        "projects": "Projects",
+        "score_range": "Score Range"
     },
     "suppliers": {
         "title": "Suppliers",
@@ -355,6 +356,7 @@
             "success": "Success",
             "updated": "Updated successfully",
             "deleted": "Deleted successfully",
+            "delete_failed": "Delete failed",
             "title": "Actions",
             "total_count": "Total: {{count}}",
             "prev": "Previous",
@@ -365,7 +367,8 @@
             "all_projects": "All Projects",
             "all_types": "All Types",
             "all_statuses": "All Statuses",
-            "all_grades": "All Grades"
+            "all_grades": "All Grades",
+            "all_ranges": "All Ranges"
         },
         "no_data": "No data found.",
         "error": "Error",

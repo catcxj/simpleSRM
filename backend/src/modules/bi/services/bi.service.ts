@@ -31,9 +31,10 @@ export class BiService {
             recordsData = await this.prisma.evaluationRecord.findMany({
                 where: {
                     taskId: { in: taskIds },
-                    supplier: supplierWhere
+                    supplier: supplierWhere,
+                    status: 'Submitted'
                 },
-                select: { totalScore: true, updatedAt: true, supplierId: true }
+                select: { totalScore: true, updatedAt: true, supplierId: true, grade: true }
             });
         }
 
@@ -41,10 +42,12 @@ export class BiService {
         if (filter.grade && filter.grade !== 'all') {
             const validSupplierIds = recordsData.filter(r => {
                 const s = r.totalScore;
-                let g = '不推荐';
-                if (s >= 80) g = '推荐';
-                else if (s >= 60) g = '审慎';
-                return g === filter.grade;
+                if (filter.grade === '90-100') return s >= 90 && s <= 100;
+                if (filter.grade === '80-89') return s >= 80 && s < 90;
+                if (filter.grade === '70-79') return s >= 70 && s < 80;
+                if (filter.grade === '60-69') return s >= 60 && s < 70;
+                if (filter.grade === '<60') return s < 60;
+                return false;
             }).map(r => r.supplierId);
 
             supplierWhere.id = { in: validSupplierIds };
@@ -106,11 +109,12 @@ export class BiService {
         let scoreRange = { '90-100': 0, '80-89': 0, '70-79': 0, '60-69': 0, '<60': 0 };
 
         recordsData.forEach(r => {
-            const s = r.totalScore;
-            if (s >= 80) { gradeDistribution['推荐']++; }
-            else if (s >= 60) { gradeDistribution['审慎']++; }
-            else { gradeDistribution['不推荐']++; }
+            const g = r.grade;
+            if (g === '推荐') { gradeDistribution['推荐']++; }
+            else if (g === '审慎') { gradeDistribution['审慎']++; }
+            else if (g === '不推荐') { gradeDistribution['不推荐']++; }
 
+            const s = r.totalScore;
             if (s >= 90) { scoreRange['90-100']++; }
             else if (s >= 80) { scoreRange['80-89']++; }
             else if (s >= 70) { scoreRange['70-79']++; }

@@ -123,13 +123,15 @@ export default function DashboardPage() {
 
                     <Select value={filters.grade} onValueChange={(v) => setFilters({ ...filters, grade: v })}>
                         <SelectTrigger className="w-[120px] h-8 text-xs">
-                            <SelectValue placeholder={t('evaluations.fields.grade', 'Grade')} />
+                            <SelectValue placeholder={t('dashboard.score_range', 'Score Range')} />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="all">{t('common.actions.all_grades', 'All Grades')}</SelectItem>
-                            <SelectItem value="推荐">推荐 ({'>='} 80)</SelectItem>
-                            <SelectItem value="审慎">审慎 (60-79)</SelectItem>
-                            <SelectItem value="不推荐">不推荐 ({'<'} 60)</SelectItem>
+                            <SelectItem value="all">{t('common.actions.all_ranges', 'All Ranges')}</SelectItem>
+                            <SelectItem value="90-100">90-100</SelectItem>
+                            <SelectItem value="80-89">80-89</SelectItem>
+                            <SelectItem value="70-79">70-79</SelectItem>
+                            <SelectItem value="60-69">60-69</SelectItem>
+                            <SelectItem value="<60">{'<'} 60</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
