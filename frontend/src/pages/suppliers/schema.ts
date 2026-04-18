@@ -27,7 +27,7 @@ export const supplierSchema = z.object({
     name: z.string().min(2, { message: "供应商名称至少需要2个字符" }),
     businessType: z.array(z.string()).min(1, { message: "请至少选择一个业务类型" }),
     industry: z.array(z.string()).nullish(),
-    status: z.enum(["Draft", "Pending", "Active", "Suspended", "Eliminated", "Blacklisted"]).default("Draft"),
+    status: z.enum(["Draft", "Active", "Suspended", "Blacklisted"]).default("Draft"),
 
     // Basic Info
     registrationNumber: z.string().min(1, "统一社会信用代码/注册号必填").nullish(),

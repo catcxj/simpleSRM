@@ -344,7 +344,7 @@ export class SuppliersService {
             const address = getStr('公司地址');
 
             // Status mapping
-            let status = SupplierStatus.Pending;
+            let status = SupplierStatus.Draft;
             const statusStr = getStr('是否入库');
             if (statusStr.includes('已入库')) status = SupplierStatus.Active;
 

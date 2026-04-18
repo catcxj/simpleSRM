@@ -15,7 +15,7 @@ model Supplier {
   id              String    @id @default(uuid())
   name            String    @unique
   registrationNumber String? @unique @map("registration_number")
-  status          String    @default("Draft") // 'Draft', 'Pending', 'Active', 'Suspended', 'Eliminated', 'Blacklisted'
+  status          String    @default("Draft") // 'Draft', 'Active', 'Suspended', 'Blacklisted'
   
   // Basic Info
   legalRepresentative String? @map("legal_representative")

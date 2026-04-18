@@ -53,7 +53,7 @@ async function importCsv() {
             const address = getStr('公司地址'); // Ensure this column name matches CSV
 
             // Status mapping
-            let status = 'Pending';
+            let status = 'Draft';
             const statusStr = getStr('是否入库');
             if (statusStr.includes('已入库')) status = 'Active';
 

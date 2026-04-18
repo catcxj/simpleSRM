@@ -4,10 +4,8 @@ import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 
 export enum SupplierStatus {
     Draft = 'Draft',
-    Pending = 'Pending',
     Active = 'Active',
     Suspended = 'Suspended',
-    Eliminated = 'Eliminated',
     Blacklisted = 'Blacklisted',
 }
 

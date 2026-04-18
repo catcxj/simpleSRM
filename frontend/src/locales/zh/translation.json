@@ -392,7 +392,6 @@
         "status": {
             "Active": "在库",
             "Suspended": "停用",
-            "Eliminated": "淘汰",
             "Completed": "已完成",
             "Submitted": "已提交",
             "Pending": "待审核",

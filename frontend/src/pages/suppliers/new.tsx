@@ -351,10 +351,8 @@ export default function SupplierFormPage() {
                                                                 </FormControl>
                                                                 <SelectContent>
                                                                     <SelectItem value="Draft">{t('common.status.Draft')}</SelectItem>
-                                                                    <SelectItem value="Pending">{t('common.status.Pending')}</SelectItem>
                                                                     <SelectItem value="Active">{t('common.status.Active')}</SelectItem>
                                                                     <SelectItem value="Suspended">{t('common.status.Suspended')}</SelectItem>
-                                                                    <SelectItem value="Eliminated">{t('common.status.Eliminated')}</SelectItem>
                                                                     <SelectItem value="Blacklisted">{t('common.status.Blacklisted')}</SelectItem>
                                                                 </SelectContent>
                                                             </Select>

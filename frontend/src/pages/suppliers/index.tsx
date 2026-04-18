@@ -225,7 +225,7 @@ export default function SuppliersPage() {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">{t('common.actions.all_statuses', 'All Statuses')}</SelectItem>
-                            {['Draft', 'Pending', 'Active', 'Suspended', 'Eliminated', 'Blacklisted'].map(status => (
+                            {['Draft', 'Active', 'Suspended', 'Blacklisted'].map(status => (
                                 <SelectItem key={status} value={status}>{t(`common.status.${status}`, status)}</SelectItem>
                             ))}
                         </SelectContent>

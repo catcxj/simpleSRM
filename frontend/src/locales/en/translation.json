@@ -375,7 +375,6 @@
         "status": {
             "Active": "Active",
             "Suspended": "Suspended",
-            "Eliminated": "Eliminated",
             "Completed": "Completed",
             "Pending": "Pending",
             "Draft": "Draft",
