@@ -64,6 +64,8 @@ export class SuppliersService {
             ...(filter.projectId && { contracts: { some: { projectId: filter.projectId } } }),
             ...(filter.contractCode && { contracts: { some: { code: { contains: filter.contractCode } } } }),
             ...(filter.grade && { evaluationRecords: { some: { grade: filter.grade } } }),
+            ...(filter.serviceRegion && { serviceRegion: { contains: filter.serviceRegion } }),
+            ...(filter.contactPerson && { contacts: { some: { name: { contains: filter.contactPerson } } } }),
         };
 
         let requestedType = filter.businessType;
@@ -104,9 +106,19 @@ export class SuppliersService {
             requestedType = undefined;
         }
 
-        // Apply specific business type search if allowable (only happens for System Admin now if requestedType is cleared)
         if (requestedType) {
             where.businessType = { contains: `"${requestedType}"` };
+        }
+
+        if (filter.contractCount) {
+            const suppliersWithCount = await this.prisma.supplier.findMany({
+                where,
+                select: { id: true, contracts: { where: { deletedAt: null } } }
+            });
+            const matchingIds = suppliersWithCount
+                .filter(s => s.contracts.length >= Number(filter.contractCount))
+                .map(s => s.id);
+            where.id = { in: matchingIds };
         }
 
         const total = await this.prisma.supplier.count({ where });

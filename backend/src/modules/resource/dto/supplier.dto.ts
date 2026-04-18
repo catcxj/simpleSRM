@@ -225,6 +225,22 @@ export class SupplierFilterDto {
 
     @ApiPropertyOptional()
     @IsOptional()
+    @IsString()
+    serviceRegion?: string;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsString()
+    contactPerson?: string;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @Type(() => Number)
+    @IsNumber()
+    contractCount?: number;
+
+    @ApiPropertyOptional()
+    @IsOptional()
     @Type(() => Number)
     @IsNumber()
     page?: number;

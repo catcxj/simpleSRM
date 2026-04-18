@@ -44,9 +44,11 @@ export default function SuppliersPage() {
         name: '',
         businessType: 'all',
         projectId: 'all',
-        contractCode: '',
         status: 'all',
         grade: 'all',
+        serviceRegion: '',
+        contactPerson: '',
+        contractCount: '',
     });
     const [page, setPage] = useState(1);
     const limit = 10;
@@ -87,9 +89,11 @@ export default function SuppliersPage() {
         ...(filters.name && { name: filters.name }),
         ...(filters.businessType !== 'all' && { businessType: filters.businessType }),
         ...(filters.projectId !== 'all' && { projectId: filters.projectId }),
-        ...(filters.contractCode && { contractCode: filters.contractCode }),
         ...(filters.status !== 'all' && { status: filters.status }),
         ...(filters.grade !== 'all' && { grade: filters.grade }),
+        ...(filters.serviceRegion && { serviceRegion: filters.serviceRegion }),
+        ...(filters.contactPerson && { contactPerson: filters.contactPerson }),
+        ...(filters.contractCount && { contractCount: Number(filters.contractCount) }),
         sortBy: sort.sortBy,
         sortOrder: sort.sortOrder,
         page,
@@ -204,9 +208,19 @@ export default function SuppliersPage() {
                         onChange={(e) => { setFilters({ ...filters, name: e.target.value }); setPage(1); }}
                     />
                     <Input
-                        placeholder={t('contracts.fields.code', 'Contract Code')}
-                        value={filters.contractCode}
-                        onChange={(e) => { setFilters({ ...filters, contractCode: e.target.value }); setPage(1); }}
+                        placeholder={t('suppliers.fields.service_region', 'Service Region')}
+                        value={filters.serviceRegion}
+                        onChange={(e) => { setFilters({ ...filters, serviceRegion: e.target.value }); setPage(1); }}
+                    />
+                    <Input
+                        placeholder={t('suppliers.fields.contact_person', 'Contact Person')}
+                        value={filters.contactPerson}
+                        onChange={(e) => { setFilters({ ...filters, contactPerson: e.target.value }); setPage(1); }}
+                    />
+                    <Input
+                        placeholder={t('suppliers.fields.contract_count', 'Contract Count')}
+                        value={filters.contractCount}
+                        onChange={(e) => { setFilters({ ...filters, contractCount: e.target.value }); setPage(1); }}
                     />
                     <Select value={filters.projectId} onValueChange={(v) => { setFilters({ ...filters, projectId: v }); setPage(1); }}>
                         <SelectTrigger>
