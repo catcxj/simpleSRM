@@ -110,21 +110,10 @@ export class SuppliersService {
             where.businessType = { contains: `"${requestedType}"` };
         }
 
-        if (filter.contractCount) {
-            const suppliersWithCount = await this.prisma.supplier.findMany({
-                where,
-                select: { id: true, contracts: { where: { deletedAt: null } } }
-            });
-            const matchingIds = suppliersWithCount
-                .filter(s => s.contracts.length >= Number(filter.contractCount))
-                .map(s => s.id);
-            where.id = { in: matchingIds };
-        }
-
         const total = await this.prisma.supplier.count({ where });
 
         let data = [];
-        if (filter.sortBy === 'averageScore') {
+        if (filter.sortBy === 'averageScore' || filter.sortBy === 'contractCount') {
             const allSuppliers = await this.prisma.supplier.findMany({
                 where,
                 include: {
@@ -136,7 +125,7 @@ export class SuppliersService {
 
             const mapped = allSuppliers.map(s => {
                 const evals = s.evaluationRecords || [];
-                let averageScore = 66;
+                let averageScore = 66; // Current default logic
                 if (evals.length > 0) {
                     averageScore = evals.reduce((sum, e) => sum + e.totalScore, 0) / evals.length;
                     averageScore = Math.round(averageScore * 100) / 100;
@@ -146,10 +135,17 @@ export class SuppliersService {
             });
 
             mapped.sort((a, b) => {
-                const aScore = a.averageScore ?? -1;
-                const bScore = b.averageScore ?? -1;
-                if (filter.sortOrder === 'asc') return aScore - bScore;
-                return bScore - aScore;
+                let aVal = 0;
+                let bVal = 0;
+                if (filter.sortBy === 'averageScore') {
+                    aVal = a.averageScore ?? -1;
+                    bVal = b.averageScore ?? -1;
+                } else {
+                    aVal = a.contractCount ?? 0;
+                    bVal = b.contractCount ?? 0;
+                }
+                if (filter.sortOrder === 'asc') return aVal - bVal;
+                return bVal - aVal;
             });
 
             data = mapped.slice(skip, skip + limit);
@@ -175,7 +171,7 @@ export class SuppliersService {
 
             data = dbData.map(s => {
                 const evals = s.evaluationRecords || [];
-                let averageScore = 66;
+                let averageScore = 66; // Maintain consistency
                 if (evals.length > 0) {
                     averageScore = evals.reduce((sum, e) => sum + e.totalScore, 0) / evals.length;
                     averageScore = Math.round(averageScore * 100) / 100;

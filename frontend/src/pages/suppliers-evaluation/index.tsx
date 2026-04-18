@@ -48,7 +48,6 @@ export default function SuppliersPage() {
         grade: 'all',
         serviceRegion: '',
         contactPerson: '',
-        contractCount: '',
     });
     const [page, setPage] = useState(1);
     const limit = 10;
@@ -93,7 +92,6 @@ export default function SuppliersPage() {
         ...(filters.grade !== 'all' && { grade: filters.grade }),
         ...(filters.serviceRegion && { serviceRegion: filters.serviceRegion }),
         ...(filters.contactPerson && { contactPerson: filters.contactPerson }),
-        ...(filters.contractCount && { contractCount: Number(filters.contractCount) }),
         sortBy: sort.sortBy,
         sortOrder: sort.sortOrder,
         page,
@@ -217,11 +215,6 @@ export default function SuppliersPage() {
                         value={filters.contactPerson}
                         onChange={(e) => { setFilters({ ...filters, contactPerson: e.target.value }); setPage(1); }}
                     />
-                    <Input
-                        placeholder={t('suppliers.fields.contract_count', 'Contract Count')}
-                        value={filters.contractCount}
-                        onChange={(e) => { setFilters({ ...filters, contractCount: e.target.value }); setPage(1); }}
-                    />
                     <Select value={filters.projectId} onValueChange={(v) => { setFilters({ ...filters, projectId: v }); setPage(1); }}>
                         <SelectTrigger>
                             <SelectValue placeholder={t('projects.title', 'Project')} />
@@ -300,7 +293,17 @@ export default function SuppliersPage() {
                             <TableHead>{t('suppliers.fields.service_region')}</TableHead>
                             <TableHead>{t('suppliers.fields.contact_person')}</TableHead>
                             <TableHead>{t('suppliers.fields.status')}</TableHead>
-                            <TableHead>{t('suppliers.fields.contract_count', '合同数')}</TableHead>
+                            <TableHead>
+                                <Button variant="ghost" className="p-0 hover:bg-transparent h-auto font-medium" onClick={() => {
+                                    setSort(prev => ({
+                                        sortBy: 'contractCount',
+                                        sortOrder: prev.sortBy === 'contractCount' && prev.sortOrder === 'desc' ? 'asc' : 'desc'
+                                    }));
+                                }}>
+                                    {t('suppliers.fields.contract_count', '合同数')}
+                                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                                </Button>
+                            </TableHead>
                             <TableHead>
                                 <Button variant="ghost" className="p-0 hover:bg-transparent h-auto font-medium" onClick={() => {
                                     setSort(prev => ({
