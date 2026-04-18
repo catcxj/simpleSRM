@@ -1,0 +1,1 @@
+import{a as t}from"./index--bSdsh7n.js";const o=async a=>t.post("/evaluations/tasks",a),e=async a=>t.get("/evaluations/records",{params:a}),n=async a=>t.post("/evaluations/submit",a),r=async a=>t.get(`/evaluations/records/${a}`),u=async a=>t.get(`/evaluations/history/${a}`);export{u as a,r as b,o as c,e as g,n as s};
