@@ -5,6 +5,7 @@ import { Suspense, lazy } from 'react';
 // Lazy load pages
 const Dashboard = lazy(() => import('./pages/dashboard'));
 const Suppliers = lazy(() => import('./pages/suppliers'));
+const SuppliersEvaluation = lazy(() => import('./pages/suppliers-evaluation'));
 const SupplierNew = lazy(() => import('./pages/suppliers/new'));
 const Projects = lazy(() => import('./pages/projects'));
 const Contracts = lazy(() => import('./pages/contracts'));
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
                 children: [
                     { path: 'dashboard', element: <Dashboard /> },
                     { path: 'suppliers', element: <Suppliers /> },
+                    { path: 'suppliers-evaluation', element: <SuppliersEvaluation /> },
                     { path: 'suppliers/new', element: <SupplierNew /> },
                     { path: 'suppliers/:id', element: <SupplierNew /> },
                     { path: 'projects', element: <Projects /> },

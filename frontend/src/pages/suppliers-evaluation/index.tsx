@@ -1,9 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getSuppliers, updateSupplier, deleteSupplier, exportSuppliers } from './service';
+import { getSuppliers, updateSupplier, deleteSupplier, getSupplierEvaluationHistory, exportSuppliers } from './service';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Plus, MoreHorizontal, Pencil, Ban, Trash2, Import, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plus, MoreHorizontal, Pencil, Ban, Trash2, Import, Download, HelpCircle, ChevronLeft, ChevronRight, ArrowUpDown } from 'lucide-react';
 import {
     Select,
     SelectContent,
@@ -22,7 +22,18 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+} from "@/components/ui/dialog"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '@/store/authStore';
 import api from '@/lib/api';
@@ -39,7 +50,9 @@ export default function SuppliersPage() {
     });
     const [page, setPage] = useState(1);
     const limit = 10;
-    const [sort] = useState({ sortBy: 'createdAt', sortOrder: 'desc' });
+    const [sort, setSort] = useState({ sortBy: 'createdAt', sortOrder: 'desc' });
+    const [viewEvaluationsSupplierId, setViewEvaluationsSupplierId] = useState<string | null>(null);
+    const [viewContractsSupplierId, setViewContractsSupplierId] = useState<string | null>(null);
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
     const { data: projectsRes } = useQuery({
@@ -51,7 +64,11 @@ export default function SuppliersPage() {
     });
     const projects = Array.isArray(projectsRes?.data) ? projectsRes.data : (Array.isArray(projectsRes) ? projectsRes : []);
 
-
+    const { data: evaluationHistory, isLoading: isLoadingHistory } = useQuery({
+        queryKey: ['supplier-evaluations', viewEvaluationsSupplierId],
+        queryFn: () => getSupplierEvaluationHistory(viewEvaluationsSupplierId!),
+        enabled: !!viewEvaluationsSupplierId,
+    });
 
     const { data: configData } = useQuery({
         queryKey: ['system-config', 'SupplierAttribute'],
@@ -126,7 +143,7 @@ export default function SuppliersPage() {
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold tracking-tight">{t('suppliers.title')}</h2>
+                <h2 className="text-2xl font-bold tracking-tight">{t('app.suppliers_evaluation')}</h2>
                 <div className="flex gap-2">
                     {hasPermission('write', 'suppliers') && (
                         <>
@@ -269,6 +286,18 @@ export default function SuppliersPage() {
                             <TableHead>{t('suppliers.fields.service_region')}</TableHead>
                             <TableHead>{t('suppliers.fields.contact_person')}</TableHead>
                             <TableHead>{t('suppliers.fields.status')}</TableHead>
+                            <TableHead>{t('suppliers.fields.contract_count', '合同数')}</TableHead>
+                            <TableHead>
+                                <Button variant="ghost" className="p-0 hover:bg-transparent h-auto font-medium" onClick={() => {
+                                    setSort(prev => ({
+                                        sortBy: 'averageScore',
+                                        sortOrder: prev.sortBy === 'averageScore' && prev.sortOrder === 'desc' ? 'asc' : 'desc'
+                                    }));
+                                }}>
+                                    {t('evaluations.fields.score', 'Score')}
+                                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                                </Button>
+                            </TableHead>
                             <TableHead className="w-[70px]"></TableHead>
                         </TableRow>
                     </TableHeader>
@@ -321,7 +350,32 @@ export default function SuppliersPage() {
                                             {t(`common.status.${supplier.status}`, { defaultValue: supplier.status }) as string}
                                         </Badge>
                                     </TableCell>
-
+                                    <TableCell>
+                                        <div className="flex items-center gap-2">
+                                            {supplier.contractCount || 0}
+                                            <Button 
+                                                variant="ghost" 
+                                                size="icon" 
+                                                className="h-6 w-6" 
+                                                onClick={() => setViewContractsSupplierId(supplier.id)} 
+                                                title={t('suppliers.view_contracts', '查看合同')}
+                                            >
+                                                <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-primary transition-colors" />
+                                            </Button>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="flex items-center gap-2">
+                                            {supplier.averageScore != null ? (
+                                                <span className="font-semibold">{supplier.averageScore}</span>
+                                            ) : (
+                                                <span className="text-muted-foreground">-</span>
+                                            )}
+                                            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setViewEvaluationsSupplierId(supplier.id)} title={t('suppliers.view_evaluations')}>
+                                                <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-primary transition-colors" />
+                                            </Button>
+                                        </div>
+                                    </TableCell>
                                     <TableCell>
                                         {hasPermission('write', 'suppliers') && (
                                             <DropdownMenu>
@@ -392,7 +446,108 @@ export default function SuppliersPage() {
                 </div>
             </div>
 
+            <Dialog open={!!viewEvaluationsSupplierId} onOpenChange={(open) => !open && setViewEvaluationsSupplierId(null)}>
+                <DialogContent className="max-w-3xl">
+                    <DialogHeader>
+                        <DialogTitle>{t('suppliers.evaluation_history')}</DialogTitle>
+                        <DialogDescription></DialogDescription>
+                    </DialogHeader>
+                    {isLoadingHistory ? (
+                        <div className="py-8 text-center">{t('common.actions.loading')}</div>
+                    ) : (
+                        <div className="border rounded-md mt-4">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>{t('evaluations.fields.year')}</TableHead>
+                                        <TableHead>{t('evaluations.fields.evaluation', '评价')}</TableHead>
+                                        <TableHead>{t('evaluations.fields.evaluator', 'Evaluator')}</TableHead>
+                                        <TableHead>{t('evaluations.fields.date')}</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {(evaluationHistory?.data || evaluationHistory)?.map((record: any) => (
+                                        <TableRow key={record.id}>
+                                            <TableCell>{record.task?.year || '-'}</TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center gap-1">
+                                                    {record.grade || '-'}
+                                                    {record.grade === '不推荐' && record.problem && (
+                                                        <Popover>
+                                                            <PopoverTrigger asChild>
+                                                                <button className="cursor-pointer outline-none inline-flex items-center">
+                                                                    <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-primary transition-colors" />
+                                                                </button>
+                                                            </PopoverTrigger>
+                                                            <PopoverContent className="w-80 p-3 shadow-lg border-muted">
+                                                                <div className="space-y-2">
+                                                                    <p className="text-sm font-semibold border-b pb-1">{t('evaluations.fields.problem_record', '不推荐原因')}</p>
+                                                                    <p className="text-xs text-muted-foreground break-all leading-relaxed">{record.problem}</p>
+                                                                </div>
+                                                            </PopoverContent>
+                                                        </Popover>
+                                                    )}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{record.evaluator?.name || '-'}</TableCell>
+                                            <TableCell>{new Date(record.createdAt).toLocaleDateString()}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                    {(!(evaluationHistory?.data || evaluationHistory) || (evaluationHistory?.data || evaluationHistory).length === 0) && (
+                                        <TableRow>
+                                            <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">{t('common.actions.no_data')}</TableCell>
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    )}
+                </DialogContent>
+            </Dialog>
 
+            <Dialog open={!!viewContractsSupplierId} onOpenChange={(open) => !open && setViewContractsSupplierId(null)}>
+                <DialogContent className="max-w-4xl">
+                    <DialogHeader>
+                        <DialogTitle>{t('suppliers.contract_list', '合同列表')}</DialogTitle>
+                        <DialogDescription>{t('suppliers.contract_list_desc', '该供应商的所有历史合同')}</DialogDescription>
+                    </DialogHeader>
+                    {(() => {
+                        const supplier = (data as any)?.data?.find((s: any) => s.id === viewContractsSupplierId);
+                        const contracts = supplier?.contracts || [];
+                        return (
+                            <div className="border rounded-md mt-4 max-h-[60vh] overflow-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>{t('contracts.fields.code', '合同编号')}</TableHead>
+                                            <TableHead>{t('contracts.fields.name', '合同名称')}</TableHead>
+                                            <TableHead>{t('projects.fields.name', '项目名称')}</TableHead>
+                                            <TableHead>{t('contracts.fields.amount', '金额')} (万元)</TableHead>
+                                            <TableHead>{t('contracts.fields.signed_at', '签署日期')}</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {contracts.map((contract: any) => (
+                                            <TableRow key={contract.id}>
+                                                <TableCell className="font-medium">{contract.code}</TableCell>
+                                                <TableCell>{contract.name}</TableCell>
+                                                <TableCell>{contract.project?.name || '-'}</TableCell>
+                                                <TableCell>{contract.amount != null ? Number(contract.amount).toFixed(2) : '-'}</TableCell>
+                                                <TableCell>{contract.signedAt ? new Date(contract.signedAt).toLocaleDateString() : '-'}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                        {contracts.length === 0 && (
+                                            <TableRow>
+                                                <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">{t('common.actions.no_data')}</TableCell>
+                                            </TableRow>
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        );
+                    })()}
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

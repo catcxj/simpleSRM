@@ -3,6 +3,7 @@
         "title": "内部单位供应链管理系统",
         "dashboard": "首页",
         "suppliers": "供应链资源库",
+        "suppliers_evaluation": "供应链评价",
         "projects": "项目管理",
         "contracts": "合同管理",
         "evaluation": "评价管理",
