@@ -58,6 +58,8 @@
                 "write_contracts": "合同管理 (写)",
                 "read_evaluations": "年度评价 (读)",
                 "write_evaluations": "年度评价 (写)",
+                "read_suppliers_evaluation": "供应链评价 (读)",
+                "write_suppliers_evaluation": "供应链评价 (写)",
                 "read_users": "系统用户 (读)",
                 "write_users": "系统用户 (写)",
                 "read_roles": "系统角色 (读)",

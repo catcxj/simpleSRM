@@ -50,6 +50,8 @@ export default function RolesPage() {
         { label: t('system.roles.permissions.write_contracts'), value: 'write:contracts' },
         { label: t('system.roles.permissions.read_evaluations'), value: 'read:evaluations' },
         { label: t('system.roles.permissions.write_evaluations'), value: 'write:evaluations' },
+        { label: t('system.roles.permissions.read_suppliers_evaluation'), value: 'read:suppliers-evaluation' },
+        { label: t('system.roles.permissions.write_suppliers_evaluation'), value: 'write:suppliers-evaluation' },
         { label: t('system.roles.permissions.read_users'), value: 'read:users' },
         { label: t('system.roles.permissions.write_users'), value: 'write:users' },
         { label: t('system.roles.permissions.read_roles'), value: 'read:roles' },

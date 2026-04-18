@@ -58,7 +58,7 @@ const Sidebar = () => {
             {hasPermission('read', 'projects') && <NavItem to="/projects" icon={FileText} label={t('app.projects')} />}
             {hasPermission('read', 'contracts') && <NavItem to="/contracts" icon={FileText} label={t('app.contracts')} />}
             {hasPermission('read', 'evaluations') && <NavItem to="/evaluations" icon={BarChart3} label={t('app.evaluation')} badge={countData?.count} />}
-            {hasPermission('read', 'suppliers') && <NavItem to="/suppliers-evaluation" icon={BarChart3} label={t('app.suppliers_evaluation')} />}
+            {hasPermission('read', 'suppliers-evaluation') && <NavItem to="/suppliers-evaluation" icon={BarChart3} label={t('app.suppliers_evaluation')} />}
 
             <div className="my-2 border-t" />
             <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">

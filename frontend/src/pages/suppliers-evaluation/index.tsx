@@ -147,7 +147,7 @@ export default function SuppliersPage() {
             <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold tracking-tight">{t('app.suppliers_evaluation')}</h2>
                 <div className="flex gap-2">
-                    {hasPermission('write', 'suppliers') && (
+                    {hasPermission('write', 'suppliers-evaluation') && (
                         <>
                             <Button variant="outline" onClick={() => document.getElementById('file-upload')?.click()}>
                                 <Import className="mr-2 h-4 w-4" /> {t('suppliers.import')}

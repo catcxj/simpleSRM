@@ -57,6 +57,8 @@
                 "write_contracts": "Contracts (Write)",
                 "read_evaluations": "Evaluations (Read)",
                 "write_evaluations": "Evaluations (Write)",
+                "read_suppliers_evaluation": "Suppliers Evaluation (Read)",
+                "write_suppliers_evaluation": "Suppliers Evaluation (Write)",
                 "read_users": "System Users (Read)",
                 "write_users": "System Users (Write)",
                 "read_roles": "System Roles (Read)",

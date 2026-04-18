@@ -1,1 +1,0 @@
-import{a as e}from"./index--bSdsh7n.js";const a="/projects",r=async t=>(await e.get(a,{params:t})).data,c=async t=>(await e.post(a,t)).data,p=async({id:t,data:s})=>(await e.patch(`${a}/${t}`,s)).data,d=async t=>(await e.delete(`${a}/${t}`)).data,i=async t=>(await e.get(`/contracts/project/${t}`)).data;export{r as a,c,d,i as g,p as u};
