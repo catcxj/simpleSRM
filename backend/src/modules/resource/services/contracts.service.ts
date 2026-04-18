@@ -19,7 +19,7 @@ export class ContractsService {
         let seq = count + 1;
         let generatedCode = `${prefix}${String(seq).padStart(3, '0')}`;
         // Verify uniqueness just in case
-        while (await this.prisma.contract.findUnique({ where: { code: generatedCode } })) {
+        while (await this.prisma.contract.findFirst({ where: { code: generatedCode, deletedAt: null } })) {
             seq++;
             generatedCode = `${prefix}${String(seq).padStart(3, '0')}`;
         }
@@ -39,8 +39,8 @@ export class ContractsService {
             contractCode = await this.generateContractCode(project.code);
         } else {
             // 1. Check Code Uniqueness only if explicitly provided
-            const existing = await this.prisma.contract.findUnique({
-                where: { code: contractCode },
+            const existing = await this.prisma.contract.findFirst({
+                where: { code: contractCode, deletedAt: null },
             });
             if (existing) throw new ConflictException('合同编号已存在');
         }
@@ -87,7 +87,7 @@ export class ContractsService {
                 if (!contractCode) {
                     contractCode = await this.generateContractCode(project.code);
                 } else {
-                    const existing = await this.prisma.contract.findUnique({ where: { code: contractCode } });
+                    const existing = await this.prisma.contract.findFirst({ where: { code: contractCode, deletedAt: null } });
                     if (existing) throw new Error(`Contract code [${contractCode}] already exists`);
                 }
 

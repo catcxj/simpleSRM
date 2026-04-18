@@ -58,7 +58,7 @@ async function importCsv() {
             if (statusStr.includes('已入库')) status = 'Active';
 
             // Check if exists
-            const existing = await prisma.supplier.findUnique({ where: { name } });
+            const existing = await prisma.supplier.findFirst({ where: { name, deletedAt: null } });
             if (existing) {
                 console.log(`Skipping existing supplier: ${name}`);
                 continue; // Or update?

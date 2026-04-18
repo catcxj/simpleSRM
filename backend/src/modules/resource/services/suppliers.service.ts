@@ -11,16 +11,16 @@ export class SuppliersService {
 
     async create(createSupplierDto: CreateSupplierDto, user?: any) {
         // Check uniqueness
-        const existingName = await this.prisma.supplier.findUnique({
-            where: { name: createSupplierDto.name },
+        const existingName = await this.prisma.supplier.findFirst({
+            where: { name: createSupplierDto.name, deletedAt: null },
         });
         if (existingName) {
             throw new ConflictException('供应商名称已存在');
         }
 
         if (createSupplierDto.registrationNumber) {
-            const existingReg = await this.prisma.supplier.findUnique({
-                where: { registrationNumber: createSupplierDto.registrationNumber },
+            const existingReg = await this.prisma.supplier.findFirst({
+                where: { registrationNumber: createSupplierDto.registrationNumber, deletedAt: null },
             });
             if (existingReg) {
                 throw new ConflictException('统一社会信用代码已存在');
@@ -203,12 +203,12 @@ export class SuppliersService {
         const existing = await this.findOne(id);
 
         if (updateSupplierDto.name && updateSupplierDto.name !== existing.name) {
-            const duplicate = await this.prisma.supplier.findUnique({ where: { name: updateSupplierDto.name } });
+            const duplicate = await this.prisma.supplier.findFirst({ where: { name: updateSupplierDto.name, deletedAt: null } });
             if (duplicate) throw new ConflictException('企业名称已被占用');
         }
 
         if (updateSupplierDto.registrationNumber && updateSupplierDto.registrationNumber !== existing.registrationNumber) {
-            const duplicateReg = await this.prisma.supplier.findUnique({ where: { registrationNumber: updateSupplierDto.registrationNumber } });
+            const duplicateReg = await this.prisma.supplier.findFirst({ where: { registrationNumber: updateSupplierDto.registrationNumber, deletedAt: null } });
             if (duplicateReg) throw new ConflictException('统一社会信用代码已存在');
         }
 

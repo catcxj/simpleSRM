@@ -8,8 +8,8 @@ export class ProjectsService {
     constructor(private prisma: PrismaService) { }
 
     async create(createProjectDto: CreateProjectDto) {
-        const existing = await this.prisma.project.findUnique({
-            where: { code: createProjectDto.code },
+        const existing = await this.prisma.project.findFirst({
+            where: { code: createProjectDto.code, deletedAt: null },
         });
         if (existing) {
             throw new ConflictException('项目编号已存在');
