@@ -16,6 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import {
     Dialog,
     DialogContent,
@@ -49,6 +50,8 @@ export default function UsersPage() {
     const [newUser, setNewUser] = useState({ username: '', name: '', password: '', roleId: '', email: '', phone: '', unit: '' });
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editUser, setEditUser] = useState({ id: '', username: '', name: '', password: '', roleId: '', email: '', phone: '', unit: '' });
+    const [viewUser, setViewUser] = useState<User | null>(null);
+    const [isViewOpen, setIsViewOpen] = useState(false);
 
     useEffect(() => {
         fetchUsers();
@@ -281,17 +284,25 @@ export default function UsersPage() {
                     </TableHeader>
                     <TableBody>
                         {users.map((user) => (
-                            <TableRow key={user.id}>
+                            <TableRow 
+                                key={user.id}
+                                className="cursor-pointer hover:bg-muted/50"
+                                onClick={() => {
+                                    setViewUser(user);
+                                    setIsViewOpen(true);
+                                }}
+                            >
                                 <TableCell className="font-medium">{user.username}</TableCell>
                                 <TableCell>{user.name}</TableCell>
                                 <TableCell>{user.unit || '-'}</TableCell>
                                 <TableCell>{user.role?.name || '-'}</TableCell>
                                 <TableCell>{t(`common.status.${user.status}`)}</TableCell>
                                 <TableCell className="text-right space-x-2">
-                                    <Button variant="ghost" size="icon" onClick={() => handleToggleStatus(user)} title={user.status === 'Active' ? '停用' : '启用'}>
+                                    <Button variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); handleToggleStatus(user); }} title={user.status === 'Active' ? '停用' : '启用'}>
                                         {user.status === 'Active' ? <PowerOff className="h-4 w-4 text-orange-500" /> : <Power className="h-4 w-4 text-green-500" />}
                                     </Button>
-                                    <Button variant="ghost" size="icon" onClick={() => {
+                                    <Button variant="ghost" size="icon" onClick={(e) => {
+                                        e.stopPropagation();
                                         setEditUser({
                                             id: user.id,
                                             username: user.username,
@@ -306,7 +317,7 @@ export default function UsersPage() {
                                     }}>
                                         <Edit className="h-4 w-4" />
                                     </Button>
-                                    <Button variant="ghost" size="icon" onClick={() => handleDelete(user.id)}>
+                                    <Button variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); handleDelete(user.id); }}>
                                         <Trash2 className="h-4 w-4 text-red-500" />
                                     </Button>
                                 </TableCell>
@@ -417,6 +428,53 @@ export default function UsersPage() {
                     </div>
                     <DialogFooter>
                         <Button type="submit" onClick={handleEditUser}>{t('common.actions.save')}</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            <Dialog open={isViewOpen} onOpenChange={setIsViewOpen}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>{t('system.users.fields.details', 'User Details')}</DialogTitle>
+                    </DialogHeader>
+                    {viewUser && (
+                        <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-3 items-center gap-4 border-b pb-2">
+                                <span className="text-sm font-medium text-muted-foreground">{t('system.users.fields.username')}</span>
+                                <span className="col-span-2 font-medium">{viewUser.username}</span>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4 border-b pb-2">
+                                <span className="text-sm font-medium text-muted-foreground">{t('system.users.fields.name')}</span>
+                                <span className="col-span-2">{viewUser.name}</span>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4 border-b pb-2">
+                                <span className="text-sm font-medium text-muted-foreground">{t('system.users.fields.role')}</span>
+                                <span className="col-span-2">{viewUser.role?.name || '-'}</span>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4 border-b pb-2">
+                                <span className="text-sm font-medium text-muted-foreground">{t('system.users.fields.unit')}</span>
+                                <span className="col-span-2">{viewUser.unit || '-'}</span>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4 border-b pb-2">
+                                <span className="text-sm font-medium text-muted-foreground">{t('suppliers.fields.email')}</span>
+                                <span className="col-span-2">{viewUser.email || '-'}</span>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4 border-b pb-2">
+                                <span className="text-sm font-medium text-muted-foreground">{t('suppliers.fields.phone')}</span>
+                                <span className="col-span-2">{viewUser.phone || '-'}</span>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4 border-b pb-2">
+                                <span className="text-sm font-medium text-muted-foreground">{t('system.users.fields.status')}</span>
+                                <span className="col-span-2">
+                                    <Badge variant={viewUser.status === 'Active' ? 'default' : 'secondary'}>
+                                        {t(`common.status.${viewUser.status}`)}
+                                    </Badge>
+                                </span>
+                            </div>
+                        </div>
+                    )}
+                    <DialogFooter>
+                        <Button onClick={() => setIsViewOpen(false)}>{t('common.actions.close', 'Close')}</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

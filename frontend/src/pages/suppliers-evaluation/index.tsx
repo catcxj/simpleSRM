@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getSuppliers, updateSupplier, deleteSupplier, getSupplierEvaluationHistory, exportSuppliers } from './service';
+import { SupplierDetailDialog } from '../suppliers/components/SupplierDetailDialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -55,6 +56,8 @@ export default function SuppliersPage() {
     const [viewEvaluationsSupplierId, setViewEvaluationsSupplierId] = useState<string | null>(null);
     const [viewContractsSupplierId, setViewContractsSupplierId] = useState<string | null>(null);
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+    const [selectedSupplierForDetail, setSelectedSupplierForDetail] = useState<any>(null);
+    const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
 
     const { data: projectsRes } = useQuery({
         queryKey: ["all-projects"],
@@ -326,7 +329,14 @@ export default function SuppliersPage() {
                         ) : (data as any)?.data?.map((supplier: any) => {
                             const primaryContact = supplier.contacts?.[0];
                             return (
-                                <TableRow key={supplier.id}>
+                                <TableRow 
+                                    key={supplier.id}
+                                    className="cursor-pointer hover:bg-muted/50"
+                                    onClick={() => {
+                                        setSelectedSupplierForDetail(supplier);
+                                        setIsDetailDialogOpen(true);
+                                    }}
+                                >
                                     <TableCell>
                                         <Checkbox
                                             checked={selectedIds.has(supplier.id)}
@@ -336,6 +346,7 @@ export default function SuppliersPage() {
                                                 else newSet.delete(supplier.id);
                                                 setSelectedIds(newSet);
                                             }}
+                                            onClick={(e) => e.stopPropagation()}
                                         />
                                     </TableCell>
                                     <TableCell className="font-medium">
@@ -374,7 +385,10 @@ export default function SuppliersPage() {
                                                 variant="ghost" 
                                                 size="icon" 
                                                 className="h-6 w-6" 
-                                                onClick={() => setViewContractsSupplierId(supplier.id)} 
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setViewContractsSupplierId(supplier.id);
+                                                }} 
                                                 title={t('suppliers.view_contracts', 'View Contracts')}
                                             >
                                                 <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-primary transition-colors" />
@@ -388,7 +402,16 @@ export default function SuppliersPage() {
                                             ) : (
                                                 <span className="text-muted-foreground">-</span>
                                             )}
-                                            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setViewEvaluationsSupplierId(supplier.id)} title={t('suppliers.view_evaluations')}>
+                                            <Button 
+                                                variant="ghost" 
+                                                size="icon" 
+                                                className="h-6 w-6" 
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setViewEvaluationsSupplierId(supplier.id);
+                                                }} 
+                                                title={t('suppliers.view_evaluations')}
+                                            >
                                                 <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-primary transition-colors" />
                                             </Button>
                                         </div>
@@ -397,7 +420,7 @@ export default function SuppliersPage() {
                                         {hasPermission('write', 'suppliers') && (
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
-                                                    <Button variant="ghost" className="h-8 w-8 p-0">
+                                                    <Button variant="ghost" className="h-8 w-8 p-0" onClick={(e) => e.stopPropagation()}>
                                                         <span className="sr-only">Open menu</span>
                                                         <MoreHorizontal className="h-4 w-4" />
                                                     </Button>
@@ -565,6 +588,11 @@ export default function SuppliersPage() {
                     })()}
                 </DialogContent>
             </Dialog>
+            <SupplierDetailDialog 
+                supplier={selectedSupplierForDetail} 
+                open={isDetailDialogOpen} 
+                onOpenChange={setIsDetailDialogOpen} 
+            />
         </div>
     );
 }
