@@ -397,6 +397,10 @@
         "error": "错误",
         "validation_error": "校验错误",
         "form_error_desc": "表单填写有误，请检查。",
+        "yes": "是",
+        "no": "否",
+        "years": "年",
+        "primary": "主要联系人",
         "status": {
             "Active": "在库",
             "Suspended": "停用",

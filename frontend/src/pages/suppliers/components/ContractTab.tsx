@@ -33,11 +33,11 @@ export function ContractTab() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>{t("contracts.fields.code", "合同编号")}</TableHead>
-                                <TableHead>{t("contracts.fields.name", "合同名称")}</TableHead>
-                                <TableHead>{t("contracts.fields.project", "关联项目")}</TableHead>
-                                <TableHead>{t("contracts.fields.amount", "合同金额")} (万元)</TableHead>
-                                <TableHead>{t("contracts.fields.signed_at", "签订时间")}</TableHead>
+                                <TableHead>{t("contracts.fields.code", "Contract Code")}</TableHead>
+                                <TableHead>{t("contracts.fields.name", "Contract Name")}</TableHead>
+                                <TableHead>{t("projects.fields.name", "Project Name")}</TableHead>
+                                <TableHead>{t("contracts.fields.amount", "Amount")} (10k)</TableHead>
+                                <TableHead>{t("contracts.fields.signed_at", "Signed Date")}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>

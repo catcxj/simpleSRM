@@ -68,7 +68,6 @@ export default function SupplierFormPage() {
             businessType: [],
             industry: [],
             status: "Draft",
-            isInLibrary: true,
             cooperationYears: 0,
 
             // Nested Defaults
@@ -360,28 +359,9 @@ export default function SupplierFormPage() {
                                                         </FormItem>
                                                     )}
                                                 />
-                                                <FormField
-                                                    control={form.control}
-                                                    name="isInLibrary"
-                                                    render={(props: any) => {
-                                                        const field = props.field;
-                                                        return (
-                                                            <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4 shadow-sm mt-8">
-                                                                <FormControl>
-                                                                    <Checkbox
-                                                                        checked={field.value}
-                                                                        onCheckedChange={field.onChange}
-                                                                    />
-                                                                </FormControl>
-                                                                <div className="space-y-1 leading-none">
-                                                                    <FormLabel>
-                                                                        {t('suppliers.form.fields.is_in_library')}
-                                                                    </FormLabel>
-                                                                </div>
-                                                            </FormItem>
-                                                        )
-                                                    }}
-                                                />
+                                                <div className="flex flex-row items-center space-x-3 space-y-0 rounded-md p-4 mt-8">
+                                                    {/* Placeholder or other field if needed */}
+                                                </div>
                                             </div>
 
                                             <div className="grid grid-cols-2 gap-4">

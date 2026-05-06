@@ -27,6 +27,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '@/store/authStore';
 import api from '@/lib/api';
 import { toast } from '@/hooks/use-toast';
+import { SupplierDetailDialog } from './components/SupplierDetailDialog';
 export default function SuppliersPage() {
     const { t } = useTranslation();
     const [filters, setFilters] = useState({
@@ -41,6 +42,7 @@ export default function SuppliersPage() {
     const limit = 10;
     const [sort] = useState({ sortBy: 'createdAt', sortOrder: 'desc' });
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+    const [selectedSupplierForDetail, setSelectedSupplierForDetail] = useState<any>(null);
 
     const { data: projectsRes } = useQuery({
         queryKey: ["all-projects"],
@@ -274,8 +276,12 @@ export default function SuppliersPage() {
                         ) : (data as any)?.data?.map((supplier: any) => {
                             const primaryContact = supplier.contacts?.[0];
                             return (
-                                <TableRow key={supplier.id}>
-                                    <TableCell>
+                                <TableRow 
+                                    key={supplier.id} 
+                                    className="cursor-pointer hover:bg-muted/50 transition-colors"
+                                    onClick={() => setSelectedSupplierForDetail(supplier)}
+                                >
+                                    <TableCell onClick={(e) => e.stopPropagation()}>
                                         <Checkbox
                                             checked={selectedIds.has(supplier.id)}
                                             onCheckedChange={(checked) => {
@@ -310,13 +316,13 @@ export default function SuppliersPage() {
                                             </div>
                                         ) : <span className="text-muted-foreground">-</span>}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell onClick={(e) => e.stopPropagation()}>
                                         <Badge variant={supplier.status === 'Active' ? 'default' : 'secondary'}>
                                             {t(`common.status.${supplier.status}`, { defaultValue: supplier.status }) as string}
                                         </Badge>
                                     </TableCell>
 
-                                    <TableCell>
+                                    <TableCell onClick={(e) => e.stopPropagation()}>
                                         {hasPermission('write', 'suppliers') && (
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
@@ -387,6 +393,11 @@ export default function SuppliersPage() {
             </div>
 
 
+            <SupplierDetailDialog 
+                supplier={selectedSupplierForDetail} 
+                open={!!selectedSupplierForDetail} 
+                onOpenChange={(open) => !open && setSelectedSupplierForDetail(null)} 
+            />
         </div>
     );
 }

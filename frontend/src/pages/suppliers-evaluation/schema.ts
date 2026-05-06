@@ -40,7 +40,6 @@ export const supplierSchema = z.object({
 
     // Operation Info
     serviceRegion: z.string().nullish(),
-    isInLibrary: z.boolean().default(true),
     cooperationYears: z.coerce.number().min(0).default(0).nullish(),
     problemRecord: z.string().nullish(),
 
