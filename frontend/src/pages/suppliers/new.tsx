@@ -236,7 +236,7 @@ export default function SupplierFormPage() {
                                 <TabsTrigger value="contact">{t('suppliers.form.tabs.contact')}</TabsTrigger>
                                 <TabsTrigger value="business">{t('suppliers.form.tabs.business')}</TabsTrigger>
                                 <TabsTrigger value="operation">{t('suppliers.form.tabs.operation')}</TabsTrigger>
-                                {isEditing && <TabsTrigger value="contracts">{t('suppliers.form.tabs.contracts', '合同列表')}</TabsTrigger>}
+                                {isEditing && <TabsTrigger value="contracts">{t('suppliers.form.tabs.contracts')}</TabsTrigger>}
                             </TabsList>
 
                             <div className="mt-6">
@@ -316,10 +316,10 @@ export default function SupplierFormPage() {
                                                     name="registrationNumber"
                                                     render={({ field }: { field: any }) => (
                                                         <FormItem>
-                                                            <FormLabel>{t('suppliers.fields.registration_number', '统一社会信用代码/注册号')} <span className="text-destructive">*</span></FormLabel>
+                                                            <FormLabel>{t('suppliers.fields.registration_number')} <span className="text-destructive">*</span></FormLabel>
                                                             <FormControl>
                                                                 <Input
-                                                                    placeholder={t('suppliers.form.placeholders.registration_number', '请输入统一社会信用代码/注册号')}
+                                                                    placeholder={t('suppliers.form.placeholders.registration_number')}
                                                                     {...field}
                                                                     value={field.value || ""}
                                                                 />
@@ -390,9 +390,9 @@ export default function SupplierFormPage() {
                                                     name="address"
                                                     render={({ field }: { field: any }) => (
                                                         <FormItem>
-                                                            <FormLabel>{t('suppliers.fields.address', '公司地址')}</FormLabel>
+                                                            <FormLabel>{t('suppliers.fields.address')}</FormLabel>
                                                             <FormControl>
-                                                                <Input {...field} value={field.value || ""} placeholder={t('suppliers.form.placeholders.address', '公司地址')} />
+                                                                <Input {...field} value={field.value || ""} placeholder={t('suppliers.form.placeholders.address')} />
                                                             </FormControl>
                                                             <FormMessage />
                                                         </FormItem>
@@ -403,9 +403,9 @@ export default function SupplierFormPage() {
                                                     name="website"
                                                     render={({ field }: { field: any }) => (
                                                         <FormItem>
-                                                            <FormLabel>{t('suppliers.fields.website', '公司网址')}</FormLabel>
+                                                            <FormLabel>{t('suppliers.fields.website')}</FormLabel>
                                                             <FormControl>
-                                                                <Input {...field} value={field.value || ""} placeholder={t('suppliers.form.placeholders.website', '公司网址(含http)')} />
+                                                                <Input {...field} value={field.value || ""} placeholder={t('suppliers.form.placeholders.website')} />
                                                             </FormControl>
                                                             <FormMessage />
                                                         </FormItem>
@@ -549,10 +549,10 @@ export default function SupplierFormPage() {
 
                             <div className="flex gap-4 mt-8 justify-end">
                                 <Button type="button" variant="outline" onClick={() => navigate("/suppliers")}>
-                                    {t('common.actions.cancel', '取消')}
+                                    {t('common.actions.cancel', 'Cancel')}
                                 </Button>
                                 <Button type="submit" disabled={isPending || isLoadingSupplier}>
-                                    {isPending ? t('common.actions.saving', '保存中...') : (isEditing ? t('common.actions.save', '保存') : t('suppliers.form.create_btn', '创建供应商'))}
+                                    {isPending ? t('common.actions.saving', 'Saving...') : (isEditing ? t('common.actions.save', 'Save') : t('suppliers.form.create_btn', 'Create Supplier'))}
                                 </Button>
                             </div>
                         </Tabs>

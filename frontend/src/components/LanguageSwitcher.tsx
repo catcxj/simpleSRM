@@ -16,7 +16,7 @@ export function LanguageSwitcher() {
             onClick={toggleLanguage}
             className="w-16"
         >
-            {i18n.language === "en" ? "中文" : "English"}
+            {i18n.language === "en" ? "中文" : "En"}
         </Button>
     );
 }

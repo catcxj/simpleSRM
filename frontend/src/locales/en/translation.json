@@ -3,6 +3,7 @@
         "title": "Internal Unit Supply Chain Management System",
         "dashboard": "Dashboard",
         "suppliers": "Suppliers",
+        "suppliers_evaluation": "Suppliers Evaluation",
         "projects": "Projects",
         "contracts": "Contracts",
         "evaluation": "Evaluation",
@@ -165,6 +166,9 @@
         "fields": {
             "name": "Name",
             "business_type": "Business Type",
+            "contact_person": "Contact Person",
+            "registration_number": "Unified Social Credit Code / Reg No",
+            "contract_count": "Contracts",
             "position": "Position",
             "status": "Status",
             "legal_representative": "Legal Representative",
@@ -216,6 +220,7 @@
             "placeholders": {
                 "legal_representative": "e.g. John Smith",
                 "supplier_name": "Acme Corp",
+                "registration_number": "Enter Unified Social Credit Code / Reg No",
                 "credit_code": "91110...",
                 "contact_person": "John Doe",
                 "phone": "+1 234...",

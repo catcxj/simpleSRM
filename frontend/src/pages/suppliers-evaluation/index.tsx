@@ -260,9 +260,9 @@ export default function SuppliersPage() {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">{t('common.actions.all_grades', 'All Grades')}</SelectItem>
-                            <SelectItem value="推荐">推荐</SelectItem>
-                            <SelectItem value="审慎">审慎</SelectItem>
-                            <SelectItem value="不推荐">不推荐</SelectItem>
+                            <SelectItem value="推荐">{t('evaluations.grades.Recommended')}</SelectItem>
+                            <SelectItem value="审慎">{t('evaluations.grades.Prudent')}</SelectItem>
+                            <SelectItem value="不推荐">{t('evaluations.grades.NotRecommended')}</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
@@ -300,7 +300,7 @@ export default function SuppliersPage() {
                                         sortOrder: prev.sortBy === 'contractCount' && prev.sortOrder === 'desc' ? 'asc' : 'desc'
                                     }));
                                 }}>
-                                    {t('suppliers.fields.contract_count', '合同数')}
+                                    {t('suppliers.fields.contract_count', 'Contracts')}
                                     <ArrowUpDown className="ml-2 h-4 w-4" />
                                 </Button>
                             </TableHead>
@@ -375,7 +375,7 @@ export default function SuppliersPage() {
                                                 size="icon" 
                                                 className="h-6 w-6" 
                                                 onClick={() => setViewContractsSupplierId(supplier.id)} 
-                                                title={t('suppliers.view_contracts', '查看合同')}
+                                                title={t('suppliers.view_contracts', 'View Contracts')}
                                             >
                                                 <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-primary transition-colors" />
                                             </Button>
@@ -477,7 +477,7 @@ export default function SuppliersPage() {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>{t('evaluations.fields.year')}</TableHead>
-                                        <TableHead>{t('evaluations.fields.evaluation', '评价')}</TableHead>
+                                        <TableHead>{t('evaluations.fields.evaluation', 'Evaluation')}</TableHead>
                                         <TableHead>{t('evaluations.fields.evaluator', 'Evaluator')}</TableHead>
                                         <TableHead>{t('evaluations.fields.date')}</TableHead>
                                     </TableRow>
@@ -498,7 +498,7 @@ export default function SuppliersPage() {
                                                             </PopoverTrigger>
                                                             <PopoverContent className="w-80 p-3 shadow-lg border-muted">
                                                                 <div className="space-y-2">
-                                                                    <p className="text-sm font-semibold border-b pb-1">{t('evaluations.fields.problem_record', '不推荐原因')}</p>
+                                                                    <p className="text-sm font-semibold border-b pb-1">{t('evaluations.fields.problem_record', 'Problem Record')}</p>
                                                                     <p className="text-xs text-muted-foreground break-all leading-relaxed">{record.problem}</p>
                                                                 </div>
                                                             </PopoverContent>
@@ -525,8 +525,8 @@ export default function SuppliersPage() {
             <Dialog open={!!viewContractsSupplierId} onOpenChange={(open) => !open && setViewContractsSupplierId(null)}>
                 <DialogContent className="max-w-4xl">
                     <DialogHeader>
-                        <DialogTitle>{t('suppliers.contract_list', '合同列表')}</DialogTitle>
-                        <DialogDescription>{t('suppliers.contract_list_desc', '该供应商的所有历史合同')}</DialogDescription>
+                        <DialogTitle>{t('suppliers.contract_list', 'Contract List')}</DialogTitle>
+                        <DialogDescription>{t('suppliers.contract_list_desc', 'All historical contracts of this supplier')}</DialogDescription>
                     </DialogHeader>
                     {(() => {
                         const supplier = (data as any)?.data?.find((s: any) => s.id === viewContractsSupplierId);
@@ -536,11 +536,11 @@ export default function SuppliersPage() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
-                                            <TableHead>{t('contracts.fields.code', '合同编号')}</TableHead>
-                                            <TableHead>{t('contracts.fields.name', '合同名称')}</TableHead>
-                                            <TableHead>{t('projects.fields.name', '项目名称')}</TableHead>
-                                            <TableHead>{t('contracts.fields.amount', '金额')} (万元)</TableHead>
-                                            <TableHead>{t('contracts.fields.signed_at', '签署日期')}</TableHead>
+                                            <TableHead>{t('contracts.fields.code', 'Contract Code')}</TableHead>
+                                            <TableHead>{t('contracts.fields.name', 'Contract Name')}</TableHead>
+                                            <TableHead>{t('projects.fields.name', 'Project Name')}</TableHead>
+                                            <TableHead>{t('contracts.fields.amount', 'Amount')} (10k)</TableHead>
+                                            <TableHead>{t('contracts.fields.signed_at', 'Signed Date')}</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
